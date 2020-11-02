@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import SEM.CentroRegistros;
 import SEM.Registro;
 
-import org.mockito.*;
+import static org.mockito.Mockito.*;
 
 
 
@@ -18,7 +18,6 @@ public class CentroRegistrosTest {
 	@BeforeEach
 	public void setUp() {
 		centroConocido = CentroRegistros.getCentro();
-		registro1 = Mockito.mock(Registro.class);
 		
 	}
 	@Test
@@ -28,6 +27,11 @@ public class CentroRegistrosTest {
 	
 	@Test
 	void testAgregadoDeRegistros() {
+		Registro registro1 = mock(Registro.class);
+		centroConocido.registrarInicio(registro1);
+		when(centroConocido.estaVigente("abc123")).thenReturn(true);
+		
+		assertTrue(centroConocido.estaVigente("abc123"));
 		
 	}
 }
