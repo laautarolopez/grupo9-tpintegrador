@@ -2,7 +2,67 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-1.10.10.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-1.10.10-javadoc.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-1.10.10-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-agent-1.10.10.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-agent-1.10.10-javadoc.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/byte-buddy-agent-1.10.10-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/mockito-core-3.3.12.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/mockito-core-3.3.12-javadoc.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/mockito-core-3.3.12-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/objenesis-3.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/objenesis-3.1-javadoc.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Mockito/Mockito_v3.3.12_and_deps.zip (Unzipped Files)/objenesis-3.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

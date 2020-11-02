@@ -2,18 +2,32 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import SEM.Sem;
+import SEM.CentroRegistros;
+import SEM.Registro;
 
-public class SemTest {
+import org.mockito.*;
+
+
+
+public class CentroRegistrosTest {
 	
-	public Sem semConocido;
+	public CentroRegistros centroConocido;
+	public Registro registro1;
+	public Registro registro2;
 	
 	@BeforeEach
 	public void setUp() {
-		semConocido = Sem.getSem();
+		centroConocido = CentroRegistros.getCentro();
+		registro1 = Mockito.mock(Registro.class);
+		
 	}
 	@Test
-	void test() {
-		assertEquals(semConocido, Sem.getSem());
+	void testSingleton() {
+		assertEquals(centroConocido, CentroRegistros.getCentro());
+	}
+	
+	@Test
+	void testAgregadoDeRegistros() {
+		
 	}
 }
