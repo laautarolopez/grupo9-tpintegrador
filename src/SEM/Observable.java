@@ -3,7 +3,7 @@ package SEM;
 import java.util.ArrayList;
 
 public class Observable {
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
+	protected ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	public void addObserver(Observer observer) {
 		observers.add(observer);
