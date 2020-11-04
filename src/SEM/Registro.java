@@ -1,26 +1,39 @@
 package SEM;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Registro {
+public abstract class Registro {
 	private String patente;
-	private LocalDate horaDeInicio;
-	private LocalDate horaDeFin;
+	private LocalDateTime horaDeInicio;
+	private LocalDateTime horaDeFin;
+	private Zona zona;
+	
+	public Registro(String patente, Zona zona) {
+		this.patente = patente;
+		this.zona = zona;
+		this.horaDeInicio = LocalDateTime.now();
+	}
 	
 	public String getPatente() {
 		return this.patente;
 	}
 	
-	public LocalDate getHoraDeInicio() {
+	public LocalDateTime getHoraDeInicio() {
 		return this.horaDeInicio;
 	}
 	
-	public LocalDate getHoraDeFin() {
+	// Prec.: debe haber una horaDeFin definida.
+	public LocalDateTime getHoraDeFin() {
 		return this.horaDeFin;
 	}
 	
-	public boolean estaVigente() {
-		return false;
-		
+	protected void setHoraDeFin(LocalDateTime horaDeFin) {
+		this.horaDeFin = horaDeFin;
+	}
+	
+	public abstract boolean estaVigente();
+	
+	public Zona getZona() {
+		return this.zona;
 	}
 }
