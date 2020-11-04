@@ -3,7 +3,11 @@ package SEM;
 public class Zona {
 	private String nombre;
 	
-	public String getZona() {
+	public Zona(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String getNombre() {
 		return this.nombre;
 	}
 }
