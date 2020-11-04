@@ -1,23 +1,26 @@
 package SEM;
 
+import java.time.LocalDate;
+
 public class Registro {
 	private String patente;
-	private Date horaDeInicio;
-	private Date horaDeFin;
+	private LocalDate horaDeInicio;
+	private LocalDate horaDeFin;
 	
 	public String getPatente() {
 		return this.patente;
 	}
 	
-	public Date getHoraDeInicio() {
+	public LocalDate getHoraDeInicio() {
 		return this.horaDeInicio;
 	}
 	
-	public Date getHoraDeFin() {
+	public LocalDate getHoraDeFin() {
 		return this.horaDeFin;
 	}
 	
 	public boolean estaVigente() {
+		return false;
 		
 	}
 }
