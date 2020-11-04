@@ -15,7 +15,7 @@ public class CentroRegistros extends Observable {
 			return centro;
 		}else {
 			return centro;
-		}
+		} 
 	}
 	
 	public void registrarInicio(Registro registro) {
@@ -24,8 +24,7 @@ public class CentroRegistros extends Observable {
 	}
 	
 	
-	public void registrarFinal(String patente) /*throws Exception*/{
-		//TODO this.validarFinalizacion(patente);
+	public void registrarFinal(String patente) {
 		for(Registro i : registros) {
 			if(i.getPatente() == patente) {
 				registros.remove(i);
