@@ -11,7 +11,7 @@ public class RegistroPuntoDeVenta extends Registro {
 	
 	private void calcularHoraDeFin(int dinero) {
 		int horas = dinero / 40;
-		LocalDateTime horaDeFin = LocalDateTime.now().plusHours(horas);
+		LocalDateTime horaDeFin = this.getHoraDeInicio().plusHours(horas);
 		this.setHoraDeFin(horaDeFin);
 	}
 
