@@ -1,11 +1,14 @@
 package SEM;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.mockito.Mockito.*;
 
 public class RegistroAplicacionTest {
 	private String patente;
@@ -17,7 +20,7 @@ public class RegistroAplicacionTest {
 	@BeforeEach
 	public void setUp() {
 		patente = "OJL215";
-		zona = new Zona("Quilmes Oeste");
+		zona = mock(Zona.class);
 		numeroCelular = 1123251054;
 		registro = new RegistroAplicacion(patente, zona, numeroCelular);
 	}
@@ -25,9 +28,15 @@ public class RegistroAplicacionTest {
 	@Test
 	public void gettersTest() {
 		assertEquals("OJL215", registro.getPatente());
-		assertEquals(LocalDateTime.now(), registro.getHoraDeInicio());
 		assertEquals(zona, registro.getZona());
 		assertEquals(numeroCelular, registro.getNumeroCelular());
 		assertTrue(registro.estaVigente());
+		
+		int minutos = LocalDateTime.now().getMinute();
+		int segundos = LocalDateTime.now().getSecond();
+		assertEquals(minutos, registro.getHoraDeInicio().getMinute());
+		assertEquals(segundos, registro.getHoraDeInicio().getSecond());
+		
+		assertNull(registro.getHoraDeFin()); // Tiene hora de fin cuando deja de estar vigente.
 	}
 }

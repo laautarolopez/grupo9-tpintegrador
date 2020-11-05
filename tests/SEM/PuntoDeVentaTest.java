@@ -48,7 +48,7 @@ class PuntoDeVentaTest {
 	@Test
 	void inciarEstacionamientoTest() {
 		pv.iniciarEstacionamiento("abc123", 120);
-		//TODO verify(pv.getCentroRegistros(),times(1)).registrarInicio();
+		//verify(pv.getCentroRegistros(),times(1)).registrarInicio();
 	}
 	
 	@Test
