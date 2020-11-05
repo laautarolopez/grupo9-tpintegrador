@@ -10,6 +10,10 @@ class PuntoDeVentaTest {
 	
 	class PuntoDeVentaTesteable extends PuntoDeVenta{
 		
+		public PuntoDeVentaTesteable(Zona zona) {
+			super(zona);
+		}
+
 		public Zona getZona() {
 			return this.zona;
 		}
