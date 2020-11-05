@@ -7,6 +7,7 @@ public class RegistroAplicacion extends Registro {
 	public RegistroAplicacion(String patente, Zona zona, int numeroCelular) {
 		super(patente, zona);
 		this.numeroCelular = numeroCelular;
+		this.estaVigente = true;
 	}
 	
 	@Override
