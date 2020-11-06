@@ -6,33 +6,34 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+class PuntoDeVentaTesteable extends PuntoDeVenta{
+	
+	public PuntoDeVentaTesteable(Zona zona) {
+		super(zona);
+	}
+
+	public Zona getZona() {
+		return this.zona;
+	}
+	
+	public void setCentroRegistros(CentroRegistros centro) {
+		this.centroRegistros = centro;
+	}
+	public void setCentroCelulares(CentroCelulares centro) {
+		this.centroCelulares = centro;
+	}
+	
+	public CentroCelulares getCentroCelulares() {
+		return this.centroCelulares;
+	}
+	
+	public CentroRegistros getCentroRegistros() {
+		return this.centroRegistros;
+	}
+}
 class PuntoDeVentaTest {
 	
-	class PuntoDeVentaTesteable extends PuntoDeVenta{
-		
-		public PuntoDeVentaTesteable(Zona zona) {
-			super(zona);
-		}
 
-		public Zona getZona() {
-			return this.zona;
-		}
-		
-		public void setCentroRegistros(CentroRegistros centro) {
-			this.centroRegistros = centro;
-		}
-		public void setCentroCelulares(CentroCelulares centro) {
-			this.centroCelulares = centro;
-		}
-		
-		public CentroCelulares getCentroCelulares() {
-			return this.centroCelulares;
-		}
-		
-		public CentroRegistros getCentroRegistros() {
-			return this.centroRegistros;
-		}
-	}
 	
 	public PuntoDeVentaTesteable pv;
 	@BeforeEach
