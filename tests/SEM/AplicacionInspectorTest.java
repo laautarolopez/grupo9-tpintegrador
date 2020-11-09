@@ -11,6 +11,8 @@ public class AplicacionInspectorTest {
 	private AplicacionInspector aplicacion;
 	private Inspector inspector;
 	private Registro registro;
+	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
+	private CentroInfracciones centroInfracciones = CentroInfracciones.getCentro();
 	
 	@BeforeEach
 	public void setUp() {
@@ -21,10 +23,18 @@ public class AplicacionInspectorTest {
 	
 	@Test
 	public void estaVigenteTest() {
-		CentroRegistros centroRegistros = CentroRegistros.getCentro();
 		centroRegistros.registrarInicio(registro);
 		when(registro.estaVigente()).thenReturn(true);
 		when(registro.getPatente()).thenReturn("abc123");
 		assertTrue(aplicacion.estaVigente("abc123"));
+	}
+	
+	@Test
+	public void altaDeInfraccionTest() {
+		assertFalse(centroInfracciones.eliminarInfraccion("abc123"));
+		
+		when(aplicacion.estaVigente("abc123")).thenReturn(false);
+		aplicacion.altaDeInfraccion("abc123");
+		assertTrue(centroInfracciones.eliminarInfraccion("abc123"));
 	}
 }
