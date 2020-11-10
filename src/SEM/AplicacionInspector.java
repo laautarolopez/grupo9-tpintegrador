@@ -1,8 +1,8 @@
 package SEM;
 
 public class AplicacionInspector {
-	private static CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	private static CentroInfracciones centroInfracciones = CentroInfracciones.getCentro();
+	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
+	private CentroInfracciones centroInfracciones = CentroInfracciones.getCentro();
 	private Inspector inspector;
 	
 	public AplicacionInspector(Inspector inspector) {
