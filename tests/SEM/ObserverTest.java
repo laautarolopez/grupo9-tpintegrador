@@ -43,6 +43,4 @@ class ObserverTest {
 		observableTesteable.notifyObservers("un dato");
 		verify(obs, times(3)).update("un dato");
 	}
-
-
 }
