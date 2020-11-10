@@ -49,30 +49,30 @@ public class RegistroAplicacionTest {
 		assertEquals(zona, registro.getZona());
 		assertEquals("1145251452", registro.getNumeroCelular());
 	}
-	
+	@Test
 	public void horaDeFinTest1() {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
 		assertEquals(LocalDateTime.parse("2020-11-10T19:24:24.498559900"), registro.getHoraDeFin());
 	}
-	
+	@Test
 	public void horaDeFinTest2() {
 		clock = Clock.fixed(Instant.parse("2020-11-10T20:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
 		assertEquals(LocalDateTime.parse("2020-11-10T20:00"), registro.getHoraDeFin());
 	}
-	
+	@Test
 	public void validez1 () {
-		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		clock = Clock.fixed(Instant.parse("2020-11-10T16:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
-		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T22:28:24.498559900Z"), ZoneId.of("GMT-3"));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T19:28:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock2);
 		assertFalse(registro.estaVigente());
 	}
-	
+	@Test
 	public void validez2() {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);

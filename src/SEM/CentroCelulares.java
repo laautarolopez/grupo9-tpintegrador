@@ -24,25 +24,13 @@ public class CentroCelulares extends Observable{
 		} 
 	}
 	
-	public void registrarCarga(String numero, int saldo) {
+	public void registrarCambio(String numero, int saldo) {
 		this.celularesRegistrados.put(numero, saldo);
 		this.notificarObservers(numero, saldo);
 	}
 	
-	// Devuelve true si descontó el saldo suficiente del valor de una hora.
-	public boolean registrarHora(String numero) {
-		if(celularesRegistrados.containsKey(numero) && this.tieneSaldoSuficiente(numero)) {
-			int saldoActual = celularesRegistrados.get(numero);
-			saldoActual -= this.valorDeHora;
-			celularesRegistrados.put(numero, saldoActual);
-			this.notificarObservers(numero, saldoActual);
-			return true;
-		}
-		return false;
-	}
-	
 	// Prec.: el numero dado debe estar registrado en el HashMap.
-	private boolean tieneSaldoSuficiente(String numero) {
+	public boolean tieneSaldoSuficiente(String numero) {
 		int saldo = celularesRegistrados.get(numero);
 		return saldo >= this.valorDeHora;
 	}
@@ -50,5 +38,17 @@ public class CentroCelulares extends Observable{
 	private void notificarObservers(String numero, int saldo) {
 		Entry<String, Integer> datos = Map.entry(numero, saldo);
 		this.notifyObservers(datos);
+	}
+	
+	public int saldoDe(String numero) {
+		return this.celularesRegistrados.get(numero) == null? 0 : this.celularesRegistrados.get(numero);
+	}
+
+	public void restarSaldo(String numero, int costo) {
+		this.registrarCambio(numero, this.saldoDe(numero) - costo);
+	}
+
+	public void agregarSaldo(String numero, int monto) {
+		this.registrarCambio(numero, this.saldoDe(numero) + monto);
 	}
 }

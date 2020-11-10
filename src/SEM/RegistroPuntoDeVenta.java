@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class RegistroPuntoDeVenta extends Registro {
 	
-	
 	private LocalDateTime horaDeFin;
 	
 	public RegistroPuntoDeVenta(String patente, Zona zona, int horas) {

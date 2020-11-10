@@ -48,4 +48,6 @@ public abstract class Registro {
 
 	public abstract LocalDateTime getHoraDeFin();
 	
+	public void finalizar() {}
+	
 }

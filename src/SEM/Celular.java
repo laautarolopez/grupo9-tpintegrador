@@ -7,5 +7,7 @@ public interface Celular /*Puede ser temporal, despues lo resolvemos en el diseñ
 	int getSaldoActual();
 
 	void agregarSaldo(int i);
+
+	void notificacionDeFin(String resumen);
 	
 }

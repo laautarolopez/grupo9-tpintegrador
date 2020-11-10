@@ -55,21 +55,22 @@ public class RegistroPuntoDeVentaTest {
 		assertEquals("AFE105", registro.getPatente());
 		assertEquals(zona, registro.getZona());
 	}
-	
+	@Test
 	public void horaDeFinTest1() {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
 		assertEquals(LocalDateTime.parse("2020-11-10T19:24:24.498559900"), registro.getHoraDeFin());
 	}
-	
+	@Test
 	public void horaDeFinTest2() {
-		clock = Clock.fixed(Instant.parse("2020-11-10T20:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		clock = Clock.fixed(Instant.parse("2020-11-10T22:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		registro.setHoraDeFinTest(3);
 		assertEquals(LocalDateTime.parse("2020-11-10T20:00"), registro.getHoraDeFin());
 	}
-	
+	@Test
 	public void validez1 () {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
@@ -78,7 +79,7 @@ public class RegistroPuntoDeVentaTest {
 		registro.setClock(clock2);
 		assertFalse(registro.estaVigente());
 	}
-	
+	@Test
 	public void validez2() {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
