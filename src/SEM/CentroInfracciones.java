@@ -2,7 +2,7 @@ package SEM;
 
 import java.util.ArrayList;
 
-public class CentroInfracciones extends Observable {
+public class CentroInfracciones {
 	protected ArrayList<Infraccion> infracciones = new ArrayList<Infraccion>();
 	
 	protected static CentroInfracciones centro = null;
@@ -20,18 +20,5 @@ public class CentroInfracciones extends Observable {
 	
 	public void registrarInfraccion(Infraccion infraccion) {
 		infracciones.add(infraccion);
-		this.notifyObservers(infracciones);
-	}
-	
-	// Devuelve true si eliminó la infracción de dicha patente; false en caso contrario.
-	public boolean eliminarInfraccion(String patente) {
-		for(Infraccion i : infracciones) {
-			if(i.getPatente() == patente) {
-				infracciones.remove(i);
-				this.notifyObservers(infracciones);
-				return true;
-			}
-		}
-		return false;
 	}
 }

@@ -4,13 +4,12 @@ import java.time.LocalDateTime;
 
 public class RegistroPuntoDeVenta extends Registro {
 	
-	public RegistroPuntoDeVenta(String patente, Zona zona, int dinero) {
+	public RegistroPuntoDeVenta(String patente, Zona zona, int horas) {
 		super(patente, zona);
-		this.calcularHoraDeFin(dinero);
+		this.calcularHoraDeFin(horas);
 	}
 	
-	private void calcularHoraDeFin(int dinero) {
-		int horas = dinero / 40;
+	private void calcularHoraDeFin(int horas) {
 		LocalDateTime horaDeFin = this.getHoraDeInicio().plusHours(horas);
 		this.setHoraDeFin(horaDeFin);
 	}

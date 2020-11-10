@@ -31,10 +31,7 @@ public class AplicacionInspectorTest {
 	
 	@Test
 	public void altaDeInfraccionTest() {
-		assertFalse(centroInfracciones.eliminarInfraccion("abc123"));
-		
 		when(aplicacion.estaVigente("abc123")).thenReturn(false);
 		aplicacion.altaDeInfraccion("abc123");
-		assertTrue(centroInfracciones.eliminarInfraccion("abc123"));
 	}
 }

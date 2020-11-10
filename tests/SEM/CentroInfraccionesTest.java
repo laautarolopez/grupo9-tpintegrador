@@ -51,36 +51,4 @@ public class CentroInfraccionesTest {
 		centroInfracciones.registrarInfraccion(infraccion1);
 		assertTrue(centroInfracciones.getInfracciones().contains(infraccion1));
 	}
-	
-	public void eliminarInfraccionTest() {
-		infraccion1 = mock(Infraccion.class);
-		infraccion2 = mock(Infraccion.class);
-		centroInfracciones.registrarInfraccion(infraccion1);
-		assertTrue(centroInfracciones.getInfracciones().contains(infraccion1));
-		assertFalse(centroInfracciones.getInfracciones().contains(infraccion2));
-		
-		assertFalse(centroInfracciones.eliminarInfraccion(infraccion2.getPatente()));
-		assertTrue(centroInfracciones.eliminarInfraccion(infraccion1.getPatente()));
-		assertFalse(centroInfracciones.getInfracciones().contains(infraccion1));
-	}
-	
-	@Test
-	public void testNotificarObservers() {
-		Observer observer = mock(Observer.class);
-		infraccion1 = mock(Infraccion.class);
-		centroInfracciones.addObserver(observer);
-		centroInfracciones.registrarInfraccion(infraccion1);
-		verify(observer,times(1)).update(centroInfracciones.getInfracciones());
-	}
-	
-	@Test
-	public void testNotificarObservers2() {
-		Observer observer = mock(Observer.class);
-		infraccion1 = mock(Infraccion.class);
-		when(infraccion1.getPatente()).thenReturn("abc123");
-		centroInfracciones.registrarInfraccion(infraccion1);
-		centroInfracciones.addObserver(observer);
-		centroInfracciones.eliminarInfraccion("abc123");
-		verify(observer,times(1)).update(centroInfracciones.getInfracciones());
-	}
 }
