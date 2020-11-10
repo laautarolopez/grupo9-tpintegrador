@@ -24,13 +24,24 @@ public class CentroRegistros extends Observable {
 	}
 	
 	
-	public void registrarFinal(String patente) {
+	public Registro registrarFinal(String patente) {
+		Registro registro = null;
 		for(Registro i : registros) {
 			if(i.getPatente() == patente) {
 				registros.remove(i);
+				registro = i;
 			}
 		}
 		this.notifyObservers(registros);
+		return this.retornarRegistro(registro);
+	}
+	
+	private Registro retornarRegistro(Registro registro) {
+		if(registro != null) {
+			return registro;
+		} else {
+			return null;
+		}
 	}
 	
 	public boolean estaVigente(String patente) {

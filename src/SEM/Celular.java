@@ -8,4 +8,6 @@ public interface Celular /*Puede ser temporal, despues lo resolvemos en el diseñ
 
 	void agregarSaldo(int i);
 	
+	Zona getZona();
+	
 }
