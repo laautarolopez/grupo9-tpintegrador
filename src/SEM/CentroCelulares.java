@@ -26,8 +26,7 @@ public class CentroCelulares extends Observable{
 	
 	public void registrarCarga(String numero, int saldo) {
 		this.celularesRegistrados.put(numero, saldo);
-		Entry<String, Integer> datos = Map.entry(numero, saldo);
-		this.notifyObservers(datos);
+		this.notificarObservers(numero, saldo);
 	}
 	
 	// Devuelve true si descontó el saldo suficiente del valor de una hora.
@@ -36,8 +35,7 @@ public class CentroCelulares extends Observable{
 			int saldoActual = celularesRegistrados.get(numero);
 			saldoActual -= this.valorDeHora;
 			celularesRegistrados.put(numero, saldoActual);
-			Entry<String, Integer> datos = Map.entry(numero, saldoActual);
-			this.notifyObservers(datos);
+			this.notificarObservers(numero, saldoActual);
 			return true;
 		}
 		return false;
@@ -47,5 +45,10 @@ public class CentroCelulares extends Observable{
 	private boolean tieneSaldoSuficiente(String numero) {
 		int saldo = celularesRegistrados.get(numero);
 		return saldo >= this.valorDeHora;
-	}	
+	}
+	
+	private void notificarObservers(String numero, int saldo) {
+		Entry<String, Integer> datos = Map.entry(numero, saldo);
+		this.notifyObservers(datos);
+	}
 }
