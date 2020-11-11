@@ -37,6 +37,7 @@ public class RegistroAplicacion extends Registro {
 
 	}
 	
+	@Override
 	protected int calcularCosto() {
 		return this.calcularDuracion() * 40;
 	}
