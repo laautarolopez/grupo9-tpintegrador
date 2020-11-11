@@ -2,6 +2,7 @@ package SEM;
 
 public class AplicacionCliente implements GeneradorDeRegistros {
 	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
+	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	private Celular celular;
 	private String patente;
 	private Modo modo;
@@ -29,7 +30,10 @@ public class AplicacionCliente implements GeneradorDeRegistros {
 	
 	public void finalizarEstacionamiento() {
 		if(centroRegistros.estaVigente(this.patente)) {
-			this.enviarRespuestaDeFin(centroRegistros.registrarFinal(this.patente));
+			Registro registro = centroRegistros.registrarFinal(this.patente);
+			int costoTotal = registro.calcularCosto();
+			centroCelulares.restarSaldo(celular.getNumero(), costoTotal);
+			this.enviarRespuestaDeFin(registro);
 		}
 	}
 	
