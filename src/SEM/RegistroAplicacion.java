@@ -25,19 +25,19 @@ public class RegistroAplicacion extends Registro {
 	}
 
 
-	private int calcularDuracion() {
+	protected int calcularDuracion() {
 		if(LocalDateTime.now(clock).isBefore(getHoraDeFin())) {
 			LocalDateTime horaDeFin = LocalDateTime.now(clock);
 			return horaDeFin.getHour() - this.horaDeInicio.getHour() +
-				   horaDeFin.getMinute() > horaDeInicio.getHour()? 1 : 0;
+				   (horaDeFin.getMinute() > horaDeInicio.getHour()? 1 : 0);
 		}else {
 			return this.getHoraDeFin().getHour() - this.horaDeInicio.getHour() +
-				   this.getHoraDeFin().getMinute() > horaDeInicio.getHour()? 1 : 0;
+				   (this.getHoraDeFin().getMinute() > this.horaDeInicio.getHour()? 1 : 0);
 		}
 
 	}
 	
-	private int calcularCosto() {
+	protected int calcularCosto() {
 		return this.calcularDuracion() * 40;
 	}
 
