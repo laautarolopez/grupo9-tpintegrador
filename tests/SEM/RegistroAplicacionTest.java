@@ -25,6 +25,14 @@ public class RegistroAplicacionTest {
 		protected void setClock(Clock clock) {
 			this.clock = clock;
 		}
+		
+		public int obtenerCosto() {
+			return this.calcularCosto();
+		}
+		
+		public int obtenerHoras() {
+			return this.calcularDuracion();
+		}
 	}
 	private String patente;
 	private Zona zona;
@@ -81,4 +89,43 @@ public class RegistroAplicacionTest {
 		registro.setClock(clock2);
 		assertTrue(registro.estaVigente());
 	}
+	
+	@Test
+	public void costo1() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T18:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T22:10:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock2);
+		assertEquals(160, registro.obtenerCosto());
+		Clock clock3 = Clock.fixed(Instant.parse("2020-11-10T23:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock3);
+		assertEquals(200, registro.obtenerCosto());
+		Clock clock4 = Clock.fixed(Instant.parse("2020-11-10T22:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock4);
+		assertEquals(200, registro.obtenerCosto());
+	}
+	@Test
+	public void costo2() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T12:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T23:59:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock2);
+		assertEquals(440, registro.obtenerCosto());
+	}
+	
+	@Test
+	public void calculoHoras() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T13:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T21:10:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock2);
+		assertEquals(8,registro.obtenerHoras());
+		Clock clock3 = Clock.fixed(Instant.parse("2020-11-10T23:30:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock3);
+		assertEquals(10,registro.obtenerHoras());
+	}
+	
 }
