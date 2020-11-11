@@ -42,6 +42,8 @@ public abstract class Registro {
 		return LocalDateTime.now(clock).isBefore(this.getHoraDeFin());
 	}
 	
+	protected abstract int calcularCosto();
+	
 	public Zona getZona() {
 		return this.zona;
 	}
