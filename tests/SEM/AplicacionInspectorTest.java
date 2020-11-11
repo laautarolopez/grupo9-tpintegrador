@@ -12,7 +12,6 @@ public class AplicacionInspectorTest {
 	private Inspector inspector;
 	private Registro registro;
 	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	private CentroInfracciones centroInfracciones = CentroInfracciones.getCentro();
 	
 	@BeforeEach
 	public void setUp() {

@@ -1,6 +1,7 @@
 package SEM;
 
 public interface Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
+	public Gps gps = new Gps();
 
 	String getNumero();
 

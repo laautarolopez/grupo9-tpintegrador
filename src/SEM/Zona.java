@@ -10,4 +10,8 @@ public class Zona {
 	public String getNombre() {
 		return this.nombre;
 	}
+	
+	public boolean esZonaDeEstacionamiento() {
+		return false;
+	}
 }
