@@ -34,6 +34,21 @@ public class CentroCelularesTest {
 		assertEquals(centroConocido, CentroCelulares.getCentroCelulares());
 	}
 	
+	
+	@Test
+	void saldoDe() {
+		assertEquals(0,centroTesteable.saldoDe("123122412"));
+		centroTesteable.agregarSaldo("123", 350);
+		assertEquals(350, centroTesteable.saldoDe("123"));
+		centroTesteable.restarSaldo("123", 120);
+		assertEquals(230, centroTesteable.saldoDe("123"));
+	}
+	
+	void restarSaldo() {
+		centroTesteable.agregarSaldo("123", 1350);
+		centroTesteable.restarSaldo("123", 120);
+		assertEquals(1230,centroTesteable.getCelularesRegistrados().get("123"));
+	}
 	@Test
 	void registrarRecargaDeCelularTest() {
 		centroTesteable.agregarSaldo("123", 150);
@@ -48,7 +63,7 @@ public class CentroCelularesTest {
 	void testNotificarObservers() {
 		Observer observer = mock(Observer.class);
 		centroConocido.addObserver(observer);
-		centroConocido.agregarSaldo("123",150);
+		centroConocido.registrarCambio("123",150);
 		verify(observer,times(1)).update(Map.entry("123", 150));
 	}
 	
