@@ -36,19 +36,19 @@ public class CentroCelularesTest {
 	
 	@Test
 	void registrarRecargaDeCelularTest() {
-		centroTesteable.registrarCarga("123", 150);
+		centroTesteable.agregarSaldo("123", 150);
 		assertEquals(150,centroTesteable.getCelularesRegistrados().get("123"));
-		centroTesteable.registrarCarga("123", 350);
-		assertEquals(350,centroTesteable.getCelularesRegistrados().get("123"));
-		centroTesteable.registrarCarga("124", 450);
-		assertEquals(450,centroTesteable.getCelularesRegistrados().get("124"));
+		centroTesteable.agregarSaldo("123", 350);
+		assertEquals(500,centroTesteable.getCelularesRegistrados().get("123"));
+		centroTesteable.agregarSaldo("122224", 450);
+		assertEquals(450,centroTesteable.getCelularesRegistrados().get("122224"));
 	}
 	
 	@Test
 	void testNotificarObservers() {
 		Observer observer = mock(Observer.class);
 		centroConocido.addObserver(observer);
-		centroConocido.registrarCarga("123",150);
+		centroConocido.agregarSaldo("123",150);
 		verify(observer,times(1)).update(Map.entry("123", 150));
 	}
 	

@@ -36,8 +36,6 @@ class PuntoDeCargaTest {
 		when(celular.getSaldoActual()).thenReturn(120);
 		pc.recargarCelular(celular, 120);
 		
-		verify(celular, times(1)).getSaldoActual();
-		verify(celular,times(1)).agregarSaldo(120);
 		verify(celular,times(1)).getNumero();
 	}
 	
@@ -50,7 +48,7 @@ class PuntoDeCargaTest {
 		pc.setCentroCelulares(cc);
 		pc.recargarCelular(celular, 120);
 		
-		verify(pc.getCentroCelulares(), times(1)).registrarCarga("1234",120);
+		verify(pc.getCentroCelulares(), times(1)).agregarSaldo("1234",120);
 	}
 
 }

@@ -3,28 +3,45 @@ package SEM;
 import java.time.LocalDateTime;
 
 public class RegistroAplicacion extends Registro {
-	private boolean estaVigente;
 	private Celular celular;
+	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	
 	public RegistroAplicacion(String patente, Zona zona, Celular celular) {
 		super(patente, zona);
 		this.celular = celular;
-		this.estaVigente = true;
 	}
 	
 	@Override
-	public boolean estaVigente() {
-		return this.estaVigente;
+	public void finalizar() {
+		celular.notificacionDeFin(this.generarResumen());
+		centroCelulares.restarSaldo(celular.getNumero(),this.calcularCosto());
 	}
 	
+	private String generarResumen() {
+		return ("Hora de inicio: " + this.horaDeInicio.getHour() + ":" + this.getHoraDeInicio().getHour() + "\n" +
+				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now().getHour() + "\n" +
+				"Duración: " + this.calcularDuracion() + "\n" +
+				"Costo: " + this.calcularCosto());
+	}
+
+
+	private int calcularDuracion() {
+		LocalDateTime horaDeFin = LocalDateTime.now(clock);
+		return horaDeFin.getHour() - this.horaDeInicio.getHour() +
+			   horaDeFin.getMinute() > horaDeInicio.getHour()? 1 : 0;
+	}
+	
+	private int calcularCosto() {
+		return this.calcularDuracion() * 40;
+	}
+
+
 	public String getNumeroCelular() {
 		return this.celular.getNumero();
 	}
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		int saldo = celular.getSaldoActual();
-		int horas = saldo / 40;
-		return this.getHoraDeInicio().plusHours(horas);
+		return this.calcularHoraDeFin(celular.getSaldoActual() / 40);
 	}
 }

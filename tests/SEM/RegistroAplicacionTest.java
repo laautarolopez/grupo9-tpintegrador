@@ -2,7 +2,10 @@ package SEM;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,19 +13,34 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class RegistroAplicacionTest {
+	public class RegistroAppTesteable extends RegistroAplicacion{
+
+		public RegistroAppTesteable(String patente, Zona zona, Celular celular) {
+			super(patente, zona, celular );
+		}
+		
+		public void setHoraDeInicio(LocalDateTime hora) {
+			this.horaDeInicio = hora;
+		}
+		protected void setClock(Clock clock) {
+			this.clock = clock;
+		}
+	}
 	private String patente;
 	private Zona zona;
 	private Celular celular;
-	private RegistroAplicacion registro;
-	
+	private RegistroAppTesteable registro;
+	private Clock clock;
 	
 	@BeforeEach
 	public void setUp() {
 		patente = "OJL215";
 		zona = mock(Zona.class);
 		celular = mock(Celular.class);
-		registro = new RegistroAplicacion(patente, zona, celular);
+		registro = new RegistroAppTesteable(patente, zona, celular);
 		when(celular.getNumero()).thenReturn("1145251452");
+		when(celular.getSaldoActual()).thenReturn(120);
+		
 	}
 	
 	@Test
@@ -30,14 +48,37 @@ public class RegistroAplicacionTest {
 		assertEquals("OJL215", registro.getPatente());
 		assertEquals(zona, registro.getZona());
 		assertEquals("1145251452", registro.getNumeroCelular());
+	}
+	@Test
+	public void horaDeFinTest1() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		assertEquals(LocalDateTime.parse("2020-11-10T19:24:24.498559900"), registro.getHoraDeFin());
+	}
+	@Test
+	public void horaDeFinTest2() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T20:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		assertEquals(LocalDateTime.parse("2020-11-10T20:00"), registro.getHoraDeFin());
+	}
+	@Test
+	public void validez1 () {
+		clock = Clock.fixed(Instant.parse("2020-11-10T16:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T19:28:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock2);
+		assertFalse(registro.estaVigente());
+	}
+	@Test
+	public void validez2() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		Clock clock2 = Clock.fixed(Instant.parse("2020-11-10T22:10:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock2);
 		assertTrue(registro.estaVigente());
-		
-		int minutos = LocalDateTime.now().getMinute();
-		int segundos = LocalDateTime.now().getSecond();
-		assertEquals(minutos, registro.getHoraDeInicio().getMinute());
-		assertEquals(segundos, registro.getHoraDeInicio().getSecond());
-		
-		//assertNull(registro.getHoraDeFin());
-		// hacer cuenta con saldo
 	}
 }

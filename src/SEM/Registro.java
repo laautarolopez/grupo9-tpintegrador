@@ -1,17 +1,21 @@
 package SEM;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public abstract class Registro {
+	protected Clock clock = Clock.system(ZoneId.of("GMT-3"));
 	private String patente;
-	private LocalDateTime horaDeInicio;
-	private LocalDateTime horaDeFin;
+	protected LocalDateTime horaDeInicio;
 	private Zona zona;
+	
+	
 	
 	public Registro(String patente, Zona zona) {
 		this.patente = patente;
 		this.zona = zona;
-		this.horaDeInicio = LocalDateTime.now();
+		this.horaDeInicio = LocalDateTime.now(clock);
 	}
 	
 	public String getPatente() {
@@ -22,18 +26,28 @@ public abstract class Registro {
 		return this.horaDeInicio;
 	}
 	
-	// Prec.: debe haber una horaDeFin definida.
-	public LocalDateTime getHoraDeFin() {
-		return this.horaDeFin;
+	protected LocalDateTime calcularHoraDeFin(int horas) {
+		if(LocalDateTime.now(clock).plusHours(horas).getHour() >= 20) {
+			return (LocalDateTime.of(
+					this.horaDeInicio.getYear(), 
+					this.horaDeInicio.getMonth(), 
+					this.horaDeInicio.getDayOfMonth(), 
+					20, 
+					0));
+		}else {
+			return this.getHoraDeInicio().plusHours(horas);
+		}
 	}
-	
-	protected void setHoraDeFin(LocalDateTime horaDeFin) {
-		this.horaDeFin = horaDeFin;
+	public boolean estaVigente() {
+		return LocalDateTime.now(clock).isBefore(this.getHoraDeFin());
 	}
-	
-	public abstract boolean estaVigente();
 	
 	public Zona getZona() {
 		return this.zona;
 	}
+
+	public abstract LocalDateTime getHoraDeFin();
+	
+	public void finalizar() {}
+	
 }

@@ -4,18 +4,20 @@ import java.time.LocalDateTime;
 
 public class RegistroPuntoDeVenta extends Registro {
 	
+	private LocalDateTime horaDeFin;
+	
 	public RegistroPuntoDeVenta(String patente, Zona zona, int horas) {
 		super(patente, zona);
-		this.calcularHoraDeFin(horas);
+		this.setHoraDeFin(horas);
 	}
 	
-	private void calcularHoraDeFin(int horas) {
-		LocalDateTime horaDeFin = this.getHoraDeInicio().plusHours(horas);
-		this.setHoraDeFin(horaDeFin);
+	
+	protected void setHoraDeFin(int horas) {
+		this.horaDeFin = this.calcularHoraDeFin(horas);
 	}
-
+	
 	@Override
-	public boolean estaVigente() {
-		return LocalDateTime.now().isBefore(this.getHoraDeFin());
+	public LocalDateTime getHoraDeFin() {
+		return this.horaDeFin;
 	}
 }
