@@ -1,6 +1,6 @@
 package SEM;
 
-public class AplicacionClienteAutomatica extends AplicacionClienteManual implements AplicacionCliente, MovementSensor {
+public class AplicacionClienteAutomatica extends AplicacionClienteManual implements MovementSensor {
 	private String estado;
 	
 	public AplicacionClienteAutomatica(Celular celular) {
@@ -28,6 +28,7 @@ public class AplicacionClienteAutomatica extends AplicacionClienteManual impleme
 		}
 	}
 	
+	@Override
 	public AplicacionCliente cambiarModo() {
 		return new AplicacionClienteManual(this.celular);
 	}
