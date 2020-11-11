@@ -1,7 +1,6 @@
 package SEM;
 
-public class AplicacionClienteAutomatica extends AplicacionClienteManual 
-										 implements AplicacionCliente, MovementSensor {
+public class AplicacionClienteAutomatica extends AplicacionClienteManual implements AplicacionCliente, MovementSensor {
 	private String estado;
 	
 	public AplicacionClienteAutomatica(Celular celular) {
