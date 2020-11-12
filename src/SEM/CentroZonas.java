@@ -38,4 +38,11 @@ public class CentroZonas {
 		}
 		return false;
 	}
+	
+	public void validarZona(String zona) throws Exception{
+		if(!this.esZonaDeEstacionamiento(zona)) {
+			throw new Exception("La zona en la que se intenta iniciar un estacionamiento no es parte del sistema");
+		}
+		
+	}
 }

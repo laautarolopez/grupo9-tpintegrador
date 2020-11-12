@@ -13,19 +13,12 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public void finalizar() {
-		celular.notificacionDeFin(this.generarResumen());
 		centroCelulares.restarSaldo(celular.getNumero(),this.calcularCosto());
 	}
-	
-	private String generarResumen() {
-		return ("Hora de inicio: " + this.horaDeInicio.getHour() + ":" + this.getHoraDeInicio().getHour() + "\n" +
-				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now().getHour() + "\n" +
-				"Duración: " + this.calcularDuracion() + "\n" +
-				"Costo: " + this.calcularCosto());
-	}
 
 
-	protected int calcularDuracion() {
+	@Override
+	public int calcularDuracion() {
 		if(LocalDateTime.now(clock).isBefore(getHoraDeFin())) {
 			LocalDateTime horaDeFin = LocalDateTime.now(clock);
 			return horaDeFin.getHour() - this.horaDeInicio.getHour() +
@@ -38,7 +31,7 @@ public class RegistroAplicacion extends Registro {
 	}
 	
 	@Override
-	protected int calcularCosto() {
+	public int calcularCosto() {
 		return this.calcularDuracion() * 40;
 	}
 
@@ -49,6 +42,6 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		return this.calcularHoraDeFin(celular.getSaldoActual() / 40);
+		return this.calcularHoraDeFin(centroCelulares.saldoDe(celular.getNumero()) / 40);
 	}
 }

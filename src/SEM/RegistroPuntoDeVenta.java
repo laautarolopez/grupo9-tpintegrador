@@ -27,4 +27,11 @@ public class RegistroPuntoDeVenta extends Registro {
 	protected int calcularCosto() {
 		return this.costo;
 	}
+
+
+	@Override
+	protected int calcularDuracion() {
+		return this.horaDeFin.getHour() - this.getHoraDeInicio().getHour() +
+			(horaDeFin.getMinute() > horaDeInicio.getHour()? 1 : 0);
+	}
 }
