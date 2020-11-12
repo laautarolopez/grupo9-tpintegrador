@@ -6,6 +6,7 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 	private AplicacionCliente app;
 	private String patenteLinkeada;
 	private CelularReal real;
+	private CentroZonas centroZonas = CentroZonas.getCentro();
 	private CentroCelulares centroCelulares= CentroCelulares.getCentroCelulares();
 	
 	
@@ -29,6 +30,10 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 		if(!(this.getSaldoActual() >= valorDeHora)) {
 			throw new Exception("Saldo insuficiente. Estacionamiento no permitido.");
 		}
+	}
+	
+	public boolean estaEnZonaDeEstacionamiento() {
+		return centroZonas.esZonaDeEstacionamiento(this.getZona());
 	}
 	
 	public int getSaldoActual() {

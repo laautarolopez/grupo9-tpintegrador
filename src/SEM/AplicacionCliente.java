@@ -59,7 +59,9 @@ public class AplicacionCliente {
 	}
 	
 	public void walking() throws Exception {
-		modo.walking(this);
+		if(celular.estaEnZonaDeEstacionamiento()){
+			modo.walking(this);
+		}
 	}
 
 	public void aconsejarFinal() {
@@ -70,14 +72,16 @@ public class AplicacionCliente {
 	}
 
 	public void aconsejarInicio() {
-		if(consejosActivados) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
 			notificador.aconsejarInicio(celular);
 		}
 		
 	}
 
 	public void driving() throws Exception {
-		modo.driving(this);
+		if(celular.estaEnZonaDeEstacionamiento()) {
+			modo.driving(this);
+		}
 		
 	}
 

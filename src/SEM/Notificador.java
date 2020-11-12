@@ -27,8 +27,8 @@ public class Notificador {
 	}
 
 	public void informarFinal(Celular celular, Registro registro) {
-		celular.notificar(("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getHour() + "\n" +
-				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now(clock).getHour() + "\n" +
+		celular.notificar(("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getMinute() + "\n" +
+				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now(clock).getMinute() + "\n" +
 				"Duración: " + registro.calcularDuracion() + "\n" +
 				"Costo: " + registro.calcularCosto()));
 	}

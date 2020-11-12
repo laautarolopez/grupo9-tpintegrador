@@ -108,5 +108,12 @@ public class CentroRegistrosTest {
 	@Test
 	void validarExistenciaDeEstacionamiento() throws Exception {
 		assertThrows(Exception.class, () -> centroConocido.validarExistenciaDeEstacionamiento("7123"));
+		registro1 = mock(Registro.class);
+		when(registro1.getPatente()).thenReturn("7123");
+		when(registro1.estaVigente()).thenReturn(true);
+		centroConocido.registrarInicio(registro1);
+		assertDoesNotThrow(() -> centroConocido.validarExistenciaDeEstacionamiento("7123"));
 	}
+	
+	
 }
