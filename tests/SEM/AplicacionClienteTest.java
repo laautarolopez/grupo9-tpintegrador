@@ -19,17 +19,17 @@ class AplicacionClienteTest {
 			this.notificador = notificador;
 		}
 		
-		public RegistroAplicacion generarRegistroTest() throws Exception {
-			centroZonas.validarZona(celular.getZona());
-			celular.validarSaldo(this.valorDeHora);
-			RegistroAplicacion registro = new RegistroAplicacion(celular.getPatente(), celular.getZona(),celular);
-			notificador.informarInicio(celular, registro);
-			centroRegistros.registrarInicio(registro);
-			return registro;
+		public CentroRegistros centroRegistros() {
+			return this.centroRegistros;
 		}
 
 		public void setCentroZonas(CentroZonas cz) {
 			this.centroZonas = cz;
+		}
+
+		public void centroRegistros(CentroRegistros centro) {
+			this.centroRegistros = centro;
+			
 		}
 	}
 	
@@ -159,7 +159,38 @@ class AplicacionClienteTest {
 		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(true);
 		app.setCentroZonas(cz);
 		app.setNotificador(notificador);
-		Registro registro1 = app.generarRegistroTest();
-		verify(notificador, times(1)).informarInicio(celular,registro1);
+		app.generarRegistro();
+		verify(notificador, times(1)).informarInicio(celular,app.centroRegistros().getRegistro(celular.getPatente()));
 	}
+	
+	@Test 
+	void finalizarEstacionamiento() throws Exception{
+		app.cambiarModo(modo);
+		CentroZonas cz = mock(CentroZonas.class);
+		app.setCentroZonas(cz);
+		CentroRegistros centro = mock(CentroRegistros.class);
+		app.centroRegistros(centro);
+		app.setNotificador(notificador);
+		when(centro.estaVigente("123")).thenReturn(true);
+		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(celular.getZona()).thenReturn("Varela");
+		when(celular.getPatente()).thenReturn("123");
+		app.generarRegistro();
+		app.finalizarEstacionamiento();
+		verify(modo,times(1)).finalizacionManual();
+		
+	}
+	
+	@Test
+	void realizarFinalizacion() throws Exception {
+		app.setNotificador(notificador);
+		when(celular.getPatente()).thenReturn("1231");
+		CentroRegistros centro = mock(CentroRegistros.class);
+		app.centroRegistros(centro);
+		app.realizarFinalizacion();
+		verify(centro, times(1)).validarExistenciaDeEstacionamiento("1231");
+		verify(centro, times(1)).registrarFinal("1231");
+	}
+	
+	
 }
