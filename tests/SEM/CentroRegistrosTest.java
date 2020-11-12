@@ -46,21 +46,12 @@ public class CentroRegistrosTest {
 		assertTrue(centroConocido.estaVigente("abc123"));
 	}
 	
+	@Test
 	void agregarRegistros() {
 		registro1 = mock(Registro.class);
 		TestCentro centrotest = new TestCentro();
 		centrotest.registrarInicio(registro1);
 		assertTrue(centrotest.getRegistros().contains(registro1));
-	}
-	
-	void finalizarRegistros() {
-		registro1 = mock(Registro.class);
-		when(registro1.getPatente()).thenReturn("abc123");
-		TestCentro centrotest = new TestCentro();
-		centrotest.registrarInicio(registro1);
-		centrotest.registrarFinal("abc123");
-		assertFalse(centrotest.getRegistros().contains(registro1));
-		verify(registro1, times(1)).finalizar();
 	}
 	
 	
@@ -115,5 +106,24 @@ public class CentroRegistrosTest {
 		assertDoesNotThrow(() -> centroConocido.validarExistenciaDeEstacionamiento("7123"));
 	}
 	
-	
+	@Test 
+	void registrarFinal(){
+		registro1 = mock(Registro.class);
+		when(registro1.getPatente()).thenReturn("7123");
+		when(registro1.estaVigente()).thenReturn(true);
+		centroConocido.registrarInicio(registro1);
+		centroConocido.registrarFinal("7123");
+		verify(registro1, times(1)).finalizar();
+	}
+	@Test
+	void getRegistro() throws Exception {
+		registro1 = mock(Registro.class);
+		when(registro1.getPatente()).thenReturn("7123");
+		when(registro1.estaVigente()).thenReturn(true);
+		TestCentro centrotest = new TestCentro();
+		centrotest.registrarInicio(registro1);
+		assertEquals(registro1, centrotest.getRegistro(registro1.getPatente()));
+		assertThrows(Exception.class, () -> centrotest.getRegistro("1232131"));
+	}
 }
+	

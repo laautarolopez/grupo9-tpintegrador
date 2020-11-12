@@ -33,7 +33,9 @@ public class CentroRegistros extends Observable {
 	}
 	
 	public void registrarFinal(String patente) {
-		for(Registro i : registros) {
+		ArrayList<Registro> aux = new ArrayList<Registro>();
+		aux.addAll(registros);
+		for(Registro i : aux) {
 			if(i.getPatente() == patente) {
 				this.finalizar(i);
 			}

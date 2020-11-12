@@ -87,4 +87,10 @@ public class RegistroPuntoDeVentaTest {
 		registro.setClock(clock2);
 		assertTrue(registro.estaVigente());
 	}
+	@Test
+	public void calcularCosto() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		assertEquals(3,registro.calcularDuracion());
+	}
 }

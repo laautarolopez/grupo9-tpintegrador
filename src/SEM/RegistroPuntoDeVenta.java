@@ -31,7 +31,6 @@ public class RegistroPuntoDeVenta extends Registro {
 
 	@Override
 	protected int calcularDuracion() {
-		return this.horaDeFin.getHour() - this.getHoraDeInicio().getHour() +
-			(horaDeFin.getMinute() > horaDeInicio.getHour()? 1 : 0);
+		return this.horaDeFin.getHour() - this.getHoraDeInicio().getHour();
 	}
 }

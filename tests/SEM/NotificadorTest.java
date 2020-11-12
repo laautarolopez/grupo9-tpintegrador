@@ -25,10 +25,7 @@ class NotificadorTest {
 		public void setClock(Clock clock) {
 			this.clock = clock;
 		}
-		
-		public LocalDateTime horaActual() {
-			 return LocalDateTime.now(clock);
-		}
+
 	}
 	@BeforeEach
 	void setup() {

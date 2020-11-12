@@ -39,9 +39,11 @@ public class RegistroAplicacionTest {
 	private Celular celular;
 	private RegistroAppTesteable registro;
 	private Clock clock;
+	private CentroCelulares centro;
 	
 	@BeforeEach
 	public void setUp() {
+		centro = mock(CentroCelulares.class);
 		patente = "OJL215";
 		zona = "Quilmes Oeste";
 		celular = mock(Celular.class);
@@ -126,5 +128,4 @@ public class RegistroAplicacionTest {
 		registro.setClock(clock3);
 		assertEquals(10,registro.obtenerHoras());
 	}
-	
 }
