@@ -3,11 +3,11 @@ package SEM;
 public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 	private String numero;
 	private Gps gps;
-	private AplicacionCliente app;
+	protected AplicacionCliente app;
 	private String patenteLinkeada;
-	private CelularReal real;
-	private CentroZonas centroZonas = CentroZonas.getCentro();
-	private CentroCelulares centroCelulares= CentroCelulares.getCentroCelulares();
+	protected CelularReal real;
+	protected CentroZonas centroZonas = CentroZonas.getCentro();
+	protected CentroCelulares centroCelulares= CentroCelulares.getCentroCelulares();
 	
 	
 	public Celular(String numero, String patente, Gps gps, MovementSensor ms) {
