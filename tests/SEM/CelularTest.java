@@ -89,4 +89,10 @@ class CelularTest {
 		when(gps.getZona()).thenReturn("Varela");
 		assertEquals("Varela", celular.getZona());
 	}
+	
+	@Test
+	void notificacion() {
+		celular.notificar("A");
+		verify(cr, times(1)).recibirNotificacion("A");
+	}
 }
