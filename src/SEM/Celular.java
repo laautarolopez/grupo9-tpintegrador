@@ -6,6 +6,7 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 	private AplicacionCliente app;
 	private String patenteLinkeada;
 	private CelularReal real;
+	private CentroCelulares centroCelulares= CentroCelulares.getCentroCelulares();
 	
 	
 	public Celular(String numero, String patente, Gps gps, MovementSensor ms) {
@@ -17,13 +18,22 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 	}
 	
 	
-	String getPatente() {
+	public String getPatente() {
 		return this.patenteLinkeada;
-	}
-	String getNumero() {
+	} 
+	public String getNumero() {
 		return this.numero;
 	}
 	
+	public void validarSaldo(int valorDeHora) throws Exception {
+		if(!(this.getSaldoActual() >= valorDeHora)) {
+			throw new Exception("Saldo insuficiente. Estacionamiento no permitido.");
+		}
+	}
+	
+	public int getSaldoActual() {
+		return centroCelulares.saldoDe(this.numero);
+	}
 	
 	public String getZona() {
 		return this.gps.getZona();

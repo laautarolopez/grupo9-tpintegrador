@@ -15,6 +15,10 @@ public class CentroCelulares extends Observable{
 		
 	}
 	
+	public void setValorDeHora(int valor) {
+		this.valorDeHora = valor;
+	}
+	
 	public static CentroCelulares getCentroCelulares() {
 		if(centro == null) {
 			centro = new CentroCelulares();
@@ -27,12 +31,6 @@ public class CentroCelulares extends Observable{
 	public void registrarCambio(String numero, int saldo) {
 		this.celularesRegistrados.put(numero, saldo);
 		this.notificarObservers(numero, saldo);
-	}
-	
-	// Prec.: el numero dado debe estar registrado en el HashMap.
-	public boolean tieneSaldoSuficiente(String numero) {
-		int saldo = celularesRegistrados.get(numero);
-		return saldo >= this.valorDeHora;
 	}
 	
 	private void notificarObservers(String numero, int saldo) {
@@ -52,9 +50,5 @@ public class CentroCelulares extends Observable{
 		this.registrarCambio(numero, this.saldoDe(numero) + monto);
 	}
 	
-	public void validarSaldo(String numero, int valorDeHora) throws Exception {
-		if(!(this.saldoDe(numero) >= valorDeHora)) {
-			throw new Exception("Saldo insuficiente. Estacionamiento no permitido.");
-		}
-	}
+	
 }

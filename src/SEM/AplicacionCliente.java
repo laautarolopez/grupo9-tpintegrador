@@ -1,17 +1,21 @@
 package SEM;
 
 public class AplicacionCliente {
+	private int valorDeHora = 40;
 	private Modo modo = new ModoManual();
 	private Notificador notificador = new Notificador();
 	private Celular celular;
 	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
 	private CentroZonas centroZonas = CentroZonas.getCentro();
-	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	private boolean consejosActivados = true;
 	
 	public AplicacionCliente(Celular celular, MovementSensor ms) {
 		this.celular = celular;
 		ms.addApp(this);
+	}
+	
+	public void setValorDeHora(int valor) {
+		this.valorDeHora = valor;
 	}
 	
 	public void activarConsejos() {
@@ -32,7 +36,7 @@ public class AplicacionCliente {
 	
 	public void generarRegistro() throws Exception{
 		centroZonas.validarZona(celular.getZona());
-		centroCelulares.validarSaldo(celular.getNumero(), GeneradorDeRegistros.valorDeHora);
+		celular.validarSaldo(this.valorDeHora);
 		RegistroAplicacion registro = new RegistroAplicacion(celular.getPatente(), celular.getZona(),celular);
 		notificador.informarInicio(celular, registro);
 		centroRegistros.registrarInicio(registro);

@@ -25,19 +25,25 @@ public class CentroRegistros extends Observable {
 	
 	
 	public void finalizarTodos() {
-		for(Registro i : registros) {
-			i.finalizar();
+		ArrayList<Registro> aux = new ArrayList<Registro>();
+		aux.addAll(registros);
+		for(Registro i : aux) {
+			this.finalizar(i);
 		}
-		registros.clear();
 	}
 	
 	public void registrarFinal(String patente) {
 		for(Registro i : registros) {
 			if(i.getPatente() == patente) {
-				registros.remove(i);
+				this.finalizar(i);
 			}
 		}
 		this.notifyObservers(registros);
+	}
+	
+	private void finalizar(Registro registro) {
+		registro.finalizar();
+		registros.remove(registro);
 	}
 	
 	public boolean estaVigente(String patente) {

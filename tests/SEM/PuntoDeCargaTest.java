@@ -33,7 +33,7 @@ class PuntoDeCargaTest {
 		Celular celular = mock(Celular.class);
 		when(celular.getNumero()).thenReturn("1234");
 		pc.recargarCelular(celular, 120);
-		
+		when(celular.getSaldoActual()).thenReturn(120);
 		verify(celular,times(1)).getNumero();
 	}
 	
@@ -44,7 +44,6 @@ class PuntoDeCargaTest {
 		CentroCelulares cc = mock(CentroCelulares.class);
 		pc.setCentroCelulares(cc);
 		pc.recargarCelular(celular, 120);
-		
 		verify(pc.getCentroCelulares(), times(1)).agregarSaldo("1234",120);
 	}
 
