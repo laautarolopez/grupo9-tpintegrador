@@ -1,13 +1,13 @@
 package SEM;
 
 public class AplicacionCliente {
-	private int valorDeHora = 40;
+	protected int valorDeHora = 40;
 	private Modo modo = new ModoManual();
-	private Notificador notificador = new Notificador();
+	protected Notificador notificador = new Notificador();
 	private Celular celular;
-	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	private CentroZonas centroZonas = CentroZonas.getCentro();
-	private boolean consejosActivados = true;
+	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
+	protected CentroZonas centroZonas = CentroZonas.getCentro();
+	protected boolean consejosActivados = true;
 	
 	public AplicacionCliente(Celular celular, MovementSensor ms) {
 		this.celular = celular;
@@ -42,7 +42,7 @@ public class AplicacionCliente {
 		centroRegistros.registrarInicio(registro);
 	}
 	
-	private void validarFinalizacionManual() throws Exception {
+	protected void validarFinalizacionManual() throws Exception {
 		if(modo.finalizacionManual()) {
 			throw new Exception("El modo actual de la aplicación no permite finalizar estacionamientos de forma manual");
 		}
@@ -65,7 +65,7 @@ public class AplicacionCliente {
 	}
 
 	public void aconsejarFinal() {
-		if(consejosActivados) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
 			notificador.aconsejarFinal(celular);
 		}
 		
