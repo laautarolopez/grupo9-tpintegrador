@@ -12,7 +12,7 @@ public class PuntoDeVenta extends PuntoDeCarga implements GeneradorDeRegistros {
 	
 	public void iniciarEstacionamiento(String patente, int horas) {
 		if (horas > 0) {
-			this.monto += horas * 40;
+			this.monto += horas * valorDeHora;
 			RegistroPuntoDeVenta registro = new RegistroPuntoDeVenta(patente,this.zona, horas);
 			centroRegistros.registrarInicio(registro);
 		}

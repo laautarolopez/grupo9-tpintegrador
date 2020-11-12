@@ -42,6 +42,6 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		return this.calcularHoraDeFin(centroCelulares.saldoDe(celular.getNumero()) / 40);
+		return this.calcularHoraDeFin(celular.getSaldoActual()/ 40);
 	}
 }

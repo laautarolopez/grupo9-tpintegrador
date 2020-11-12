@@ -31,6 +31,7 @@ class ObserverTest {
 	void quitarObserver() {
 		Observer obs = mock(Observer.class);
 		observableTesteable.addObserver(obs);
+		assertTrue(observableTesteable.getObservers().contains(obs));
 		observableTesteable.deleteObserver(obs);;
 		assertFalse(observableTesteable.getObservers().contains(obs));
 	}
