@@ -47,7 +47,7 @@ public class RegistroAplicacionTest {
 		celular = mock(Celular.class);
 		registro = new RegistroAppTesteable(patente, zona, celular);
 		when(celular.getNumero()).thenReturn("1145251452");
-		when(celular.getSaldoActual()).thenReturn(120);
+		
 		
 	}
 	

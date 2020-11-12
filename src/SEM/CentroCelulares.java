@@ -51,4 +51,10 @@ public class CentroCelulares extends Observable{
 	public void agregarSaldo(String numero, int monto) {
 		this.registrarCambio(numero, this.saldoDe(numero) + monto);
 	}
+	
+	public void validarSaldo(String numero, int valorDeHora) throws Exception {
+		if(!(this.saldoDe(numero) >= valorDeHora)) {
+			throw new Exception("Saldo insuficiente. Estacionamiento no permitido.");
+		}
+	}
 }

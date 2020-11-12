@@ -62,7 +62,6 @@ class PuntoDeVentaTest {
 	void recargarCelularTestDeMensajesAlCentroDeCelulares() {
 		Celular celular = mock(Celular.class);
 		when(celular.getNumero()).thenReturn("1234");
-		when(celular.getSaldoActual()).thenReturn(120);
 		pv.recargarCelular(celular, 120);
 		
 		verify(pv.getCentroCelulares(), times(1)).agregarSaldo("1234",120);

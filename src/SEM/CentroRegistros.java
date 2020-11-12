@@ -24,24 +24,20 @@ public class CentroRegistros extends Observable {
 	}
 	
 	
-	public Registro registrarFinal(String patente) {
-		Registro registro = null;
+	public void finalizarTodos() {
+		for(Registro i : registros) {
+			i.finalizar();
+		}
+		registros.clear();
+	}
+	
+	public void registrarFinal(String patente) {
 		for(Registro i : registros) {
 			if(i.getPatente() == patente) {
 				registros.remove(i);
-				registro = i;
 			}
 		}
 		this.notifyObservers(registros);
-		return this.retornarRegistro(registro);
-	}
-	
-	private Registro retornarRegistro(Registro registro) {
-		if(registro != null) {
-			return registro;
-		} else {
-			return null;
-		}
 	}
 	
 	public boolean estaVigente(String patente) {
@@ -51,5 +47,20 @@ public class CentroRegistros extends Observable {
 			}
 		}
 		return false;
+	}
+
+	public Registro getRegistro(String patente) throws Exception{
+		for(Registro i : registros) {
+			if(i.getPatente() == patente) {
+				return i;
+			}
+		}
+		throw new Exception("La patente " + patente + " no cuenta con un registro en el sistema");
+	}
+	
+	public void validarExistenciaDeEstacionamiento(String patente) throws Exception {
+		if(!this.estaVigente(patente)) {
+			throw new Exception("No hay un estacionamiento vigente para la patente " + patente);
+		}
 	}
 }

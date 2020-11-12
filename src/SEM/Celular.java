@@ -1,16 +1,41 @@
 package SEM;
 
-public interface Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
-	public Gps gps = new Gps();
-
-	String getNumero();
-
-	int getSaldoActual();
-
-	void agregarSaldo(int i);
-
-	void notificacionDeFin(String resumen);
+public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
+	private String numero;
+	private Gps gps;
+	private AplicacionCliente app;
+	private String patenteLinkeada;
+	private CelularReal real;
 	
-	String getZona();
+	
+	public Celular(String numero, String patente, Gps gps, MovementSensor ms) {
+		this.numero = numero;
+		this.gps = gps;
+		this.patenteLinkeada = patente;
+		
+		this.app = new AplicacionCliente(this, ms);
+	}
+	
+	
+	String getPatente() {
+		return this.patenteLinkeada;
+	}
+	String getNumero() {
+		return this.numero;
+	}
+	
+	
+	public String getZona() {
+		return this.gps.getZona();
+	}
+
+	public void notificar(String mensaje) {
+		this.real.recibirNotificacion(mensaje);
+	}
+	
+	public void cambiarModoApp(Modo modo) {
+		app.cambiarModo(modo);
+	}
+
 	
 }

@@ -50,6 +50,8 @@ public abstract class Registro {
 
 	public abstract LocalDateTime getHoraDeFin();
 	
+	protected abstract int calcularDuracion();
+	
 	public void finalizar() {}
 	
 }
