@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 class PuntoDeVentaTesteable extends PuntoDeVenta{
 	
-	public PuntoDeVentaTesteable(Zona zona) {
+	public PuntoDeVentaTesteable(String zona) {
 		super(zona);
 	}
 
-	public Zona getZona() {
+	public String getZona() {
 		return this.zona;
 	}
 	
@@ -36,7 +36,7 @@ class PuntoDeVentaTest {
 	public PuntoDeVentaTesteable pv;
 	@BeforeEach
 	void setup() {
-		Zona zona = mock(Zona.class);
+		String zona = "Quilmes Oeste";
 		CentroRegistros centR = mock(CentroRegistros.class);
 		CentroCelulares centC = mock(CentroCelulares.class);
 		pv = new PuntoDeVentaTesteable(zona);

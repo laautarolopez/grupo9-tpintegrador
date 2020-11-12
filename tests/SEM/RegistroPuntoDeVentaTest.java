@@ -3,7 +3,6 @@ package SEM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.Test;
 public class RegistroPuntoDeVentaTest {
 	public class RegistroPuntoTesteable extends RegistroPuntoDeVenta{
 
-		public RegistroPuntoTesteable(String patente, Zona zona, int horas) {
+		public RegistroPuntoTesteable(String patente, String zona, int horas) {
 			super(patente, zona, horas);
 		}
 		
@@ -34,7 +33,7 @@ public class RegistroPuntoDeVentaTest {
 		
 	}
 	private String patente;
-	private Zona zona;
+	private String zona;
 	private RegistroPuntoTesteable registro;
 	private Clock clock;
 	
@@ -42,7 +41,7 @@ public class RegistroPuntoDeVentaTest {
 	@BeforeEach
 	public void setUp() {
 		patente = "AFE105";
-		zona = mock(Zona.class);
+		zona = "Quilmes Oeste";
 		registro = new RegistroPuntoTesteable(patente, zona, 3);
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);

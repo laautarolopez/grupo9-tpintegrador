@@ -2,9 +2,9 @@ package SEM;
 
 public class Inspector {
 	private int dni;
-	private Zona zona;
+	private String zona;
 	
-	public Inspector(int dni, Zona zona) {
+	public Inspector(int dni, String zona) {
 		this.dni = dni;
 		this.zona = zona;
 	}
@@ -13,11 +13,11 @@ public class Inspector {
 		return this.dni;
 	}
 	
-	public Zona getZona() {
+	public String getZona() {
 		return this.zona;
 	}
 	
-	public void setZona(Zona nuevaZona) {
+	public void setZona(String nuevaZona) {
 		this.zona = nuevaZona;
 	}
 }

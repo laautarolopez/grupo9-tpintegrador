@@ -8,11 +8,11 @@ public abstract class Registro {
 	protected Clock clock = Clock.system(ZoneId.of("GMT-3"));
 	private String patente;
 	protected LocalDateTime horaDeInicio;
-	private Zona zona;
+	private String zona;
 	
 	
 	
-	public Registro(String patente, Zona zona) {
+	public Registro(String patente, String zona) {
 		this.patente = patente;
 		this.zona = zona;
 		this.horaDeInicio = LocalDateTime.now(clock);
@@ -44,7 +44,7 @@ public abstract class Registro {
 	
 	protected abstract int calcularCosto();
 	
-	public Zona getZona() {
+	public String getZona() {
 		return this.zona;
 	}
 

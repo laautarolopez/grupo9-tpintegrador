@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class RegistroAplicacionTest {
 	public class RegistroAppTesteable extends RegistroAplicacion{
 
-		public RegistroAppTesteable(String patente, Zona zona, Celular celular) {
+		public RegistroAppTesteable(String patente, String zona, Celular celular) {
 			super(patente, zona, celular );
 		}
 		
@@ -35,7 +35,7 @@ public class RegistroAplicacionTest {
 		}
 	}
 	private String patente;
-	private Zona zona;
+	private String zona;
 	private Celular celular;
 	private RegistroAppTesteable registro;
 	private Clock clock;
@@ -43,7 +43,7 @@ public class RegistroAplicacionTest {
 	@BeforeEach
 	public void setUp() {
 		patente = "OJL215";
-		zona = mock(Zona.class);
+		zona = "Quilmes Oeste";
 		celular = mock(Celular.class);
 		registro = new RegistroAppTesteable(patente, zona, celular);
 		when(celular.getNumero()).thenReturn("1145251452");

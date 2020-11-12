@@ -11,6 +11,6 @@ public interface Celular /*Puede ser temporal, despues lo resolvemos en el diseñ
 
 	void notificacionDeFin(String resumen);
 	
-	Zona getZona();
+	String getZona();
 	
 }

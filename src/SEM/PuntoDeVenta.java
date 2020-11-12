@@ -1,11 +1,11 @@
 package SEM;
 
 public class PuntoDeVenta extends PuntoDeCarga implements GeneradorDeRegistros {
-	protected Zona zona;
+	protected String zona;
 	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
 	protected int monto;
 	
-	public PuntoDeVenta(Zona zona) {
+	public PuntoDeVenta(String zona) {
 		this.zona = zona;
 		this.monto = 0;
 	}

@@ -6,7 +6,7 @@ public class Infraccion {
 	private String patente;
 	private LocalDateTime fechaYHora;
 	private Inspector inspector;
-	private Zona zona;
+	private String zona;
 	
 	public Infraccion(String patente, Inspector inspector) {
 		this.patente = patente;
@@ -27,7 +27,7 @@ public class Infraccion {
 		return this.inspector;
 	}
 	
-	public Zona getZona() {
+	public String getZona() {
 		return this.zona;
 	}
 }

@@ -6,7 +6,7 @@ public class RegistroAplicacion extends Registro {
 	private Celular celular;
 	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	
-	public RegistroAplicacion(String patente, Zona zona, Celular celular) {
+	public RegistroAplicacion(String patente, String zona, Celular celular) {
 		super(patente, zona);
 		this.celular = celular;
 	}
