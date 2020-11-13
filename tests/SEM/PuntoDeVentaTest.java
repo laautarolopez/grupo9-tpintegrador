@@ -45,7 +45,7 @@ class PuntoDeVentaTest {
 	}
 	
 	@Test
-	void inciarEstacionamientoTest() {
+	void inciarEstacionamientoTest() throws Exception {
 		pv.iniciarEstacionamiento("abc123", 120);
 		//verify(pv.getCentroRegistros(),times(1)).registrarInicio();
 	}

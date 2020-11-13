@@ -12,10 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
+
+/*Los clocks se setean con 3 horas más que la deseada, ya que al transformarla en LolcaDateTime se le restan 3*/
 public class RegistroAplicacionTest {
 	public class RegistroAppTesteable extends RegistroAplicacion{
 
-		public RegistroAppTesteable(String patente, String zona, Celular celular) {
+		public RegistroAppTesteable(String patente, String zona, Celular celular) throws Exception {
 			super(patente, zona, celular );
 		}
 		
@@ -42,7 +44,7 @@ public class RegistroAplicacionTest {
 	private CentroCelulares centro;
 	
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		centro = mock(CentroCelulares.class);
 		patente = "OJL215";
 		zona = "Quilmes Oeste";
