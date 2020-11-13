@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 public class RegistroPuntoDeVentaTest {
 	public class RegistroPuntoTesteable extends RegistroPuntoDeVenta{
 
-		public RegistroPuntoTesteable(String patente, String zona, int horas) {
+		public RegistroPuntoTesteable(String patente, String zona, int horas) throws Exception {
 			super(patente, zona, horas);
 		}
 		
@@ -39,7 +39,7 @@ public class RegistroPuntoDeVentaTest {
 	
 	
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		patente = "AFE105";
 		zona = "Quilmes Oeste";
 		registro = new RegistroPuntoTesteable(patente, zona, 3);

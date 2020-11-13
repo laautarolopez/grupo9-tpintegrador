@@ -12,10 +12,13 @@ public abstract class Registro {
 	
 	
 	
-	public Registro(String patente, String zona) {
-		this.patente = patente;
-		this.zona = zona;
-		this.horaDeInicio = LocalDateTime.now(clock);
+	public Registro(String patente, String zona) throws Exception{
+		if(LocalDateTime.now(clock).getHour() < 7 || LocalDateTime.now(clock).getHour() >= 20) {
+			throw new Exception("No se puede generar un registro de estacionamiento en este horario");
+		}
+			this.patente = patente;
+			this.zona = zona;
+			this.horaDeInicio = LocalDateTime.now(clock);
 	}
 	
 	public String getPatente() {
