@@ -31,7 +31,7 @@ public class RegistroAplicacion extends RegistroDeEstacionamiento implements Val
 	
 	@Override
 	public int calcularCosto() {
-		return this.calcularDuracion() * 40;
+		return this.calcularDuracion() * valorDeHora;
 	}
 
 
