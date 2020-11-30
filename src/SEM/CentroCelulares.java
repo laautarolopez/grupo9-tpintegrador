@@ -4,30 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class CentroCelulares extends Observable{
-	protected int valorDeHora = 40;
-	
-	protected HashMap<String,Integer> celularesRegistrados = new HashMap<String,Integer>();
-	
-	protected static CentroCelulares centro = null;
-	
-	protected CentroCelulares() {
-		
-	}
-	
-	public void setValorDeHora(int valor) {
-		this.valorDeHora = valor;
-	}
-	
-	public static CentroCelulares getCentroCelulares() {
-		if(centro == null) {
-			centro = new CentroCelulares();
-			return centro;
-		}else {
-			return centro;
-		} 
-	}
-	
+public class CentroCelulares extends Observable {
+	private Map<String,Integer> celularesRegistrados = new HashMap<String,Integer>();
+
 	public void registrarCambio(String numero, int saldo) {
 		this.celularesRegistrados.put(numero, saldo);
 		this.notificarObservers(numero, saldo);
@@ -49,6 +28,4 @@ public class CentroCelulares extends Observable{
 	public void agregarSaldo(String numero, int monto) {
 		this.registrarCambio(numero, this.saldoDe(numero) + monto);
 	}
-	
-	
 }

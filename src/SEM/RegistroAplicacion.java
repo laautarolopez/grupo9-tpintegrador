@@ -2,18 +2,17 @@ package SEM;
 
 import java.time.LocalDateTime;
 
-public class RegistroAplicacion extends Registro {
+public class RegistroAplicacion extends RegistroDeEstacionamiento implements ValorDeHora {
 	private Celular celular;
-	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	
-	public RegistroAplicacion(String patente, String zona, Celular celular) throws Exception {
-		super(patente, zona);
+	public RegistroAplicacion(Sistema sistema, String patente, String zona, Celular celular) throws Exception {
+		super(sistema, patente, zona);
 		this.celular = celular;
 	}
 	
 	@Override
 	public void finalizar() {
-		centroCelulares.restarSaldo(celular.getNumero(),this.calcularCosto());
+		sistema.restarSaldo(celular.getNumero(),this.calcularCosto());
 	}
 
 
@@ -42,6 +41,6 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		return this.calcularHoraDeFin(celular.getSaldoActual()/ 40);
+		return this.calcularHoraDeFin(celular.getSaldoActual() / valorDeHora);
 	}
 }

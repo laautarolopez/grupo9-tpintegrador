@@ -1,21 +1,27 @@
 package SEM;
 
-public class AplicacionCliente {
-	protected int valorDeHora = 40;
-	private Modo modo = new ModoManual();
-	protected Notificador notificador = new Notificador();
+public class AplicacionCliente implements ValorDeHora {
+	private Sistema sistema;
+	private Modo modo;
+	private Notificador notificador;
 	private Celular celular;
-	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	protected CentroZonas centroZonas = CentroZonas.getCentro();
-	protected boolean consejosActivados = true;
+	private boolean consejosActivados;
 	
-	public AplicacionCliente(Celular celular, MovementSensor ms) {
+	public AplicacionCliente(Sistema sistema, Celular celular, MovementSensor ms) {
+		this.sistema = sistema;
+		this.modo = new ModoManual(this);
+		this.notificador = new Notificador();
 		this.celular = celular;
-		ms.addApp(this);
+		this.consejosActivados = true;
+		//ms.addApp(this);
 	}
 	
-	public void setValorDeHora(int valor) {
-		this.valorDeHora = valor;
+	public Modo getModo() {
+		return this.modo;
+	}
+	
+	public void setModo(Modo modo) {
+		this.modo = modo;
 	}
 	
 	public void activarConsejos() {
@@ -26,8 +32,8 @@ public class AplicacionCliente {
 		this.consejosActivados = false;
 	}
 	
-	public void cambiarModo(Modo modo) {
-		this.modo = modo;
+	public void cambiarModo() {
+		this.modo.cambiarModo();
 	}
 	
 	public void iniciarEstacionamiento() throws Exception {
@@ -35,11 +41,11 @@ public class AplicacionCliente {
 	}
 	
 	public void generarRegistro() throws Exception{
-		centroZonas.validarZona(celular.getZona());
-		celular.validarSaldo(this.valorDeHora);
-		RegistroAplicacion registro = new RegistroAplicacion(celular.getPatente(), celular.getZona(),celular);
+		sistema.validarZona(celular.getZona());
+		celular.validarSaldo(valorDeHora);
+		RegistroAplicacion registro = new RegistroAplicacion(sistema, celular.getPatente(), celular.getZona(),celular);
 		notificador.informarInicio(celular, registro);
-		centroRegistros.registrarInicio(registro);
+		sistema.registrarInicio(registro);
 	}
 	
 	protected void validarFinalizacionManual() throws Exception {
@@ -80,9 +86,7 @@ public class AplicacionCliente {
 
 	public void driving() throws Exception {
 		if(celular.estaEnZonaDeEstacionamiento()) {
-			modo.driving(this);
+			modo.driving();
 		}
-		
 	}
-
 }

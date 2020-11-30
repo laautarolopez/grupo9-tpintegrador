@@ -2,7 +2,15 @@ package SEM;
 
 public class ModoAutomatico extends Modo {
 	
-
+	public ModoAutomatico(AplicacionCliente aplicacion) {
+		super(aplicacion);
+	}
+	
+	@Override
+	public void cambiarModo() {
+		aplicacion.setModo(new ModoManual(aplicacion));
+	}
+	
 	@Override
 	public void driving(AplicacionCliente app) throws Exception {
 		if(this.estado == "walking") {

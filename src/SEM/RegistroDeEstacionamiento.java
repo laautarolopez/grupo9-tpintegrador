@@ -4,21 +4,23 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public abstract class Registro {
-	protected Clock clock = Clock.system(ZoneId.of("GMT-3"));
+public abstract class RegistroDeEstacionamiento {
+	Sistema sistema;
+	Clock clock = Clock.system(ZoneId.of("GMT-3"));
+	LocalDateTime horaDeInicio;
 	private String patente;
-	protected LocalDateTime horaDeInicio;
 	private String zona;
 	
 	
 	
-	public Registro(String patente, String zona) throws Exception{
+	public RegistroDeEstacionamiento(Sistema sistema, String patente, String zona) throws Exception{
 		if(LocalDateTime.now(clock).getHour() < 7 || LocalDateTime.now(clock).getHour() >= 20) {
 			throw new Exception("No se puede generar un registro de estacionamiento en este horario");
 		}
-			this.patente = patente;
-			this.zona = zona;
-			this.horaDeInicio = LocalDateTime.now(clock);
+		this.sistema = sistema;
+		this.patente = patente;
+		this.zona = zona;
+		this.horaDeInicio = LocalDateTime.now(clock);
 	}
 	
 	public String getPatente() {

@@ -1,22 +1,10 @@
 package SEM;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CentroZonas {
-	protected ArrayList<String> zonas = new ArrayList<String>();
-	
-	protected static CentroZonas centro = null;
-	
-	protected CentroZonas() {}
-	
-	public static CentroZonas getCentro() {
-		if(centro == null) {
-			centro = new CentroZonas();
-			return centro;
-		}else {
-			return centro;
-		} 
-	}
+	private List<String> zonas = new ArrayList<String>();
 	
 	public void agregarZona(String zona) {
 		if(!this.esZonaDeEstacionamiento(zona)) {
@@ -31,12 +19,7 @@ public class CentroZonas {
 	}
 	
 	public boolean esZonaDeEstacionamiento(String zona) {
-		for(String z : zonas) {
-			if(z == zona) {
-				return true;
-			}
-		}
-		return false;
+		return zonas.contains(zona);
 	}
 	
 	public void validarZona(String zona) throws Exception{

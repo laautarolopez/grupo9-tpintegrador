@@ -1,7 +1,12 @@
 package SEM;
 
 public abstract class Modo {
-	protected String estado;
+	AplicacionCliente aplicacion;
+	Estado estado;
+	
+	public Modo(AplicacionCliente aplicacion) {
+		this.aplicacion = aplicacion;
+	}
 		
 	public abstract void iniciarEstacionamiento(AplicacionCliente aplicacionCliente) throws Exception;
 
@@ -9,16 +14,10 @@ public abstract class Modo {
 	
 	public abstract boolean requiereNotificaciones();
 	
-	void walking(AplicacionCliente app) throws Exception{
-		if(this.estado == "driving" && this.requiereNotificaciones()){
-			app.aconsejarInicio();
-		}
-	}
+	public abstract void cambiarModo();
 	
-	void driving(AplicacionCliente app) throws Exception{
-		if(this.estado == "driving" && this.requiereNotificaciones()){
-			app.aconsejarFinal();
-		}
-	}
+	public abstract void walking();
+	
+	public abstract void driving();
 	
 }

@@ -48,8 +48,8 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 		this.real.recibirNotificacion(mensaje);
 	}
 	
-	public void cambiarModoApp(Modo modo) {
-		app.cambiarModo(modo);
+	public void cambiarModoApp() {
+		app.cambiarModo();
 	}
 
 	

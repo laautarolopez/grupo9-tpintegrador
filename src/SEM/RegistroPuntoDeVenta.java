@@ -2,14 +2,14 @@ package SEM;
 
 import java.time.LocalDateTime;
 
-public class RegistroPuntoDeVenta extends Registro {
+public class RegistroPuntoDeVenta extends RegistroDeEstacionamiento implements ValorDeHora {
 	
 	private LocalDateTime horaDeFin;
 	private int costo;
 	
 	public RegistroPuntoDeVenta(String patente, String zona, int horas) throws Exception {
 		super(patente, zona);
-		this.costo = horas * 40;
+		this.costo = horas * valorDeHora;
 		this.setHoraDeFin(horas);
 	}
 	

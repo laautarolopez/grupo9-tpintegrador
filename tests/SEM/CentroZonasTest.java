@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Test;
 class CentroZonasTest {
 	private String zona1;
 	private String zona2;
-	private CentroZonas centroZonas = CentroZonas.getCentro();
+	private CentroZonas centroZonas;
 	
 	@BeforeEach
 	public void setUp() {
+		centroZonas = new CentroZonas();
 		zona1 = "Quilmes Oeste";
 		zona2 = "Quilmes Este";
 	}
