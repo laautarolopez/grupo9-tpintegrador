@@ -19,6 +19,7 @@ public class InfraccionTest {
 	public void setUp() {
 		patente = "ACF210";
 		inspector = mock(Inspector.class);
+		when(inspector.getZona()).thenReturn("Quilmes");
 		infraccion = new Infraccion(patente, inspector);
 		fechaYHora = infraccion.getFechaYHora();
 	}
@@ -28,6 +29,8 @@ public class InfraccionTest {
 		assertEquals(patente, infraccion.getPatente());
 		assertEquals(fechaYHora, infraccion.getFechaYHora());
 		assertEquals(inspector, infraccion.getInspector());
-		assertEquals(inspector.getZona(), infraccion.getZona());
+		assertEquals("Quilmes", infraccion.getZona());
+		
+		verify(inspector).getZona();
 	}
 }
