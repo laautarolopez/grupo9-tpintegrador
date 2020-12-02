@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class RegistroAplicacion extends RegistroDeEstacionamiento {
 	private Celular celular;
 	
-	public RegistroAplicacion(Sistema sistema, String patente, String zona, Celular celular) throws Exception {
-		super(sistema, patente, zona);
+	public RegistroAplicacion(Sistema sistema, Celular celular) throws Exception {
+		super(sistema, celular.getPatente(), celular.getZona());
 		this.celular = celular;
 	}
 	
@@ -42,5 +42,15 @@ public class RegistroAplicacion extends RegistroDeEstacionamiento {
 	@Override
 	public LocalDateTime getHoraDeFin() {
 		return this.calcularHoraDeFin(celular.getSaldoActual() / sistema.getValorDeHora());
+	}
+	
+	@Override
+	public String toString() {
+		String resultado = "Patente: " + this.getPatente() + "\n" +
+						   "Hora de inicio: " + this.getHoraDeInicio().getHour() + ":" +
+						   					    this.getHoraDeInicio().getMinute() + "\n" +
+						   "Número de celular: " + this.getNumeroCelular() + "\n" +
+						   "Zona: " + this.getZona()+ "\n";
+		return resultado;
 	}
 }

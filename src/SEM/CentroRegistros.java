@@ -8,7 +8,7 @@ public class CentroRegistros extends Observable {
 	
 	public void registrarInicio(RegistroDeEstacionamiento registro) {
 		registros.add(registro);
-		this.notifyObservers(registro);
+		this.notifyObservers("Inicio de: \n" + registro.toString());
 	}
 	
 	
@@ -22,7 +22,7 @@ public class CentroRegistros extends Observable {
 		for(RegistroDeEstacionamiento i : registros) {
 			if(i.getPatente().equals(patente)) {
 				this.finalizar(i);
-				this.notifyObservers(i);
+				this.notifyObservers("Fin de: \n" + i.toString());
 			}
 		}
 	}

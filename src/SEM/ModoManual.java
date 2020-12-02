@@ -13,21 +13,25 @@ public class ModoManual extends Modo {
 	
 	@Override
 	public void iniciarEstacionamiento() {
-		
+		try {
+			aplicacion.realizarEstacionamiento();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override
 	public void finalizarEstacionamiento() {
-		
+		aplicacion.realizarFinalizacion();
 	}
 	
 	@Override
 	protected void realizarAccionWalkingADriving() {
-		
+		aplicacion.aconsejarFinal();
 	}
 
 	@Override
 	protected void realizarAccionDrivingAWalking() {
-		
+		aplicacion.aconsejarInicio();
 	}
 }

@@ -34,4 +34,13 @@ public class RegistroPuntoDeVenta extends RegistroDeEstacionamiento {
 	protected int calcularDuracion() {
 		return this.horaDeFin.getHour() - this.getHoraDeInicio().getHour();
 	}
+	
+	@Override
+	public String toString() {
+		String resultado = "Patente: " + this.getPatente() + "\n" +
+						   "Hora de inicio: " + this.getHoraDeInicio().getHour() + ":" +
+						   						this.getHoraDeInicio().getMinute() + "\n" +
+						   "Zona: " + this.getZona()+ "\n";
+		return resultado;
+	}
 }

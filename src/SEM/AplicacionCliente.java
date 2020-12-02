@@ -6,6 +6,7 @@ public class AplicacionCliente implements MovementSensor {
 	private Notificador notificador;
 	private Celular celular;
 	private boolean consejosActivados;
+	private RegistroAplicacion registro;
 	
 	public AplicacionCliente(Sistema sistema, Celular celular) {
 		this.sistema = sistema;
@@ -39,24 +40,36 @@ public class AplicacionCliente implements MovementSensor {
 		this.modo.iniciarEstacionamiento();
 	}
 	
-	public void generarRegistro() throws Exception{
-		sistema.validarZona(celular.getZona());
-		celular.validarSaldo(sistema.getValorDeHora());
-		RegistroAplicacion registro = new RegistroAplicacion(sistema, celular.getPatente(), celular.getZona(),celular);
-		notificador.informarInicio(celular, registro);
-		sistema.registrarInicio(registro);
+	protected void realizarEstacionamiento() throws Exception {
+		if(celular.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
+		   && !this.tieneRegistroCreado()) {
+			RegistroAplicacion registro = new RegistroAplicacion(sistema, celular);
+			sistema.registrarInicio(registro);
+			notificador.informarInicio(celular, registro);
+			this.registro = registro;
+		}
 	}
 	
+	private boolean tieneSaldoSuficiente() {
+		return celular.getSaldoActual() >= sistema.getValorDeHora();
+	}
+
 	public void finalizarEstacionamiento() {
 		this.modo.finalizarEstacionamiento();
 	}
 	
-	public void realizarFinalizacion() throws Exception{
-		centroRegistros.validarExistenciaDeEstacionamiento(celular.getPatente());
-		notificador.informarFinal(celular, centroRegistros.getRegistro(celular.getPatente()));
-		centroRegistros.registrarFinal(celular.getPatente());
+	protected void realizarFinalizacion() {
+		if(this.tieneRegistroCreado()) {
+			sistema.registrarFinal(this.registro.getPatente());
+			notificador.informarFinal(celular, this.registro);
+			this.registro = null;
+		}
 	}
 	
+	private boolean tieneRegistroCreado() {
+		return this.registro != null;
+	}
+
 	@Override
 	public void walking() {
 		modo.walking();
@@ -64,18 +77,19 @@ public class AplicacionCliente implements MovementSensor {
 	
 	@Override
 	public void driving() {
-		//if(celular.estaEnZonaDeEstacionamiento())
 		modo.driving();
 	}
 	
 	public void aconsejarFinal() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
+		   && this.tieneRegistroCreado()) {
 			notificador.aconsejarFinal(celular);
 		}
 	}
 
 	public void aconsejarInicio() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
+		   && !this.tieneRegistroCreado()) {
 			notificador.aconsejarInicio(celular);
 		}
 	}

@@ -27,12 +27,6 @@ public class Celular {
 		return this.numero;
 	}
 	
-	public void validarSaldo() {
-		if(this.getSaldoActual() < sistema.getValorDeHora()) {
-			System.out.println("Saldo insuficiente. Estacionamiento no permitido.");
-		}
-	}
-	
 	public boolean estaEnZonaDeEstacionamiento() {
 		return sistema.esZonaDeEstacionamiento(this.getZona());
 	}

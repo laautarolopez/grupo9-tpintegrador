@@ -23,11 +23,15 @@ public class ModoAutomatico extends Modo {
 
 	@Override
 	protected void realizarAccionWalkingADriving() {
-		
+		aplicacion.realizarFinalizacion();
 	}
 
 	@Override
 	protected void realizarAccionDrivingAWalking() {
-		
+		try {
+			aplicacion.realizarEstacionamiento();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

@@ -49,6 +49,10 @@ public class Sistema {
 		centroRegistros.registrarInicio(registro);
 	}
 	
+	public void registrarFinal(String patente) {
+		centroRegistros.registrarFinal(patente);
+	}
+	
 	// INFRACCIONES
 	public void registrarInfraccion(Infraccion infraccion) {
 		centroInfracciones.registrarInfraccion(infraccion);
