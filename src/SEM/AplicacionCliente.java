@@ -1,19 +1,18 @@
 package SEM;
 
-public class AplicacionCliente implements ValorDeHora {
+public class AplicacionCliente implements MovementSensor {
 	private Sistema sistema;
 	private Modo modo;
 	private Notificador notificador;
 	private Celular celular;
 	private boolean consejosActivados;
 	
-	public AplicacionCliente(Sistema sistema, Celular celular, MovementSensor ms) {
+	public AplicacionCliente(Sistema sistema, Celular celular) {
 		this.sistema = sistema;
 		this.modo = new ModoManual(this);
 		this.notificador = new Notificador();
 		this.celular = celular;
 		this.consejosActivados = true;
-		//ms.addApp(this);
 	}
 	
 	public Modo getModo() {
@@ -36,26 +35,20 @@ public class AplicacionCliente implements ValorDeHora {
 		this.modo.cambiarModo();
 	}
 	
-	public void iniciarEstacionamiento() throws Exception {
-		modo.iniciarEstacionamiento(this);
+	public void iniciarEstacionamiento() {
+		this.modo.iniciarEstacionamiento();
 	}
 	
 	public void generarRegistro() throws Exception{
 		sistema.validarZona(celular.getZona());
-		celular.validarSaldo(valorDeHora);
+		celular.validarSaldo(sistema.getValorDeHora());
 		RegistroAplicacion registro = new RegistroAplicacion(sistema, celular.getPatente(), celular.getZona(),celular);
 		notificador.informarInicio(celular, registro);
 		sistema.registrarInicio(registro);
 	}
 	
-	protected void validarFinalizacionManual() throws Exception {
-		if(modo.finalizacionManual()) {
-			throw new Exception("El modo actual de la aplicación no permite finalizar estacionamientos de forma manual");
-		}
-	}
-	public void finalizarEstacionamiento() throws Exception{
-		this.validarFinalizacionManual();
-		this.realizarFinalizacion();
+	public void finalizarEstacionamiento() {
+		this.modo.finalizarEstacionamiento();
 	}
 	
 	public void realizarFinalizacion() throws Exception{
@@ -64,29 +57,26 @@ public class AplicacionCliente implements ValorDeHora {
 		centroRegistros.registrarFinal(celular.getPatente());
 	}
 	
-	public void walking() throws Exception {
-		if(celular.estaEnZonaDeEstacionamiento()){
-			modo.walking(this);
-		}
+	@Override
+	public void walking() {
+		modo.walking();
 	}
-
+	
+	@Override
+	public void driving() {
+		//if(celular.estaEnZonaDeEstacionamiento())
+		modo.driving();
+	}
+	
 	public void aconsejarFinal() {
 		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
 			notificador.aconsejarFinal(celular);
 		}
-		
 	}
 
 	public void aconsejarInicio() {
 		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
 			notificador.aconsejarInicio(celular);
-		}
-		
-	}
-
-	public void driving() throws Exception {
-		if(celular.estaEnZonaDeEstacionamiento()) {
-			modo.driving();
 		}
 	}
 }

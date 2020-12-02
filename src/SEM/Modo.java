@@ -1,23 +1,37 @@
 package SEM;
 
 public abstract class Modo {
-	AplicacionCliente aplicacion;
 	Estado estado;
+	AplicacionCliente aplicacion;
 	
 	public Modo(AplicacionCliente aplicacion) {
+		this.estado = new EstadoWalking(this);
 		this.aplicacion = aplicacion;
 	}
-		
-	public abstract void iniciarEstacionamiento(AplicacionCliente aplicacionCliente) throws Exception;
-
-	public abstract boolean finalizacionManual();
 	
-	public abstract boolean requiereNotificaciones();
+	public Estado getEstado() {
+		return this.estado;
+	}
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+		
+	public void walking() {
+		this.estado.walking();
+	}
+	
+	public void driving() {
+		this.estado.driving();
+	}
 	
 	public abstract void cambiarModo();
+
+	public abstract void iniciarEstacionamiento();
+
+	public abstract void finalizarEstacionamiento();
 	
-	public abstract void walking();
+	protected abstract void realizarAccionWalkingADriving();
 	
-	public abstract void driving();
-	
+	protected abstract void realizarAccionDrivingAWalking();
 }

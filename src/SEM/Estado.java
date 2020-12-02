@@ -1,8 +1,21 @@
 package SEM;
 
 public abstract class Estado {
+	private Modo modo;
 	
-	public abstract void aconsejarInicio(AplicacionCliente aplicacion);
+	public Estado(Modo modo) {
+		this.modo = modo;
+	}
 	
-	public abstract void aconsejarFinal(AplicacionCliente aplicacion);
+	public Modo getModo() {
+		return this.modo;
+	}
+	
+	public void setModo(Modo modo) {
+		this.modo = modo;
+	}
+	
+	public abstract void driving();
+	
+	public abstract void walking();
 }

@@ -1,43 +1,44 @@
 package SEM;
 
-public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
+public class Celular {
+	private Sistema sistema;
 	private String numero;
-	private Gps gps;
-	protected AplicacionCliente app;
 	private String patenteLinkeada;
-	protected CelularReal real;
-	protected CentroZonas centroZonas = CentroZonas.getCentro();
-	protected CentroCelulares centroCelulares= CentroCelulares.getCentroCelulares();
+	private Gps gps;
+	private AplicacionCliente aplicacion;
 	
-	
-	public Celular(String numero, String patente, Gps gps, MovementSensor ms) {
+	public Celular(Sistema sistema, String numero, String patente, Gps gps) {
+		this.sistema = sistema;
 		this.numero = numero;
-		this.gps = gps;
 		this.patenteLinkeada = patente;
-		
-		this.app = new AplicacionCliente(this, ms);
+		this.gps = gps;
+		this.aplicacion = new AplicacionCliente(sistema, this);
 	}
-	
 	
 	public String getPatente() {
 		return this.patenteLinkeada;
 	} 
+	
+	public void setPatente(String patente) {
+		this.patenteLinkeada = patente;
+	}
+	
 	public String getNumero() {
 		return this.numero;
 	}
 	
-	public void validarSaldo(int valorDeHora) throws Exception {
-		if(!(this.getSaldoActual() >= valorDeHora)) {
-			throw new Exception("Saldo insuficiente. Estacionamiento no permitido.");
+	public void validarSaldo() {
+		if(this.getSaldoActual() < sistema.getValorDeHora()) {
+			System.out.println("Saldo insuficiente. Estacionamiento no permitido.");
 		}
 	}
 	
 	public boolean estaEnZonaDeEstacionamiento() {
-		return centroZonas.esZonaDeEstacionamiento(this.getZona());
+		return sistema.esZonaDeEstacionamiento(this.getZona());
 	}
 	
 	public int getSaldoActual() {
-		return centroCelulares.saldoDe(this.numero);
+		return sistema.getSaldo(this.numero);
 	}
 	
 	public String getZona() {
@@ -45,12 +46,10 @@ public class Celular /*Puede ser temporal, despues lo resolvemos en el diseño*/{
 	}
 
 	public void notificar(String mensaje) {
-		this.real.recibirNotificacion(mensaje);
+		System.out.println(mensaje);
 	}
 	
 	public void cambiarModoApp() {
-		app.cambiarModo();
+		this.aplicacion.cambiarModo();
 	}
-
-	
 }

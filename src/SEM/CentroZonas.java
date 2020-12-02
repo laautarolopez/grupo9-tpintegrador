@@ -21,11 +21,4 @@ public class CentroZonas {
 	public boolean esZonaDeEstacionamiento(String zona) {
 		return zonas.contains(zona);
 	}
-	
-	public void validarZona(String zona) throws Exception{
-		if(!this.esZonaDeEstacionamiento(zona)) {
-			throw new Exception("La zona en la que se intenta iniciar un estacionamiento no es parte del sistema");
-		}
-		
-	}
 }

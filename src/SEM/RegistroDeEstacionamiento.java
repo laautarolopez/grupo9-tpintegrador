@@ -11,10 +11,8 @@ public abstract class RegistroDeEstacionamiento {
 	private String patente;
 	private String zona;
 	
-	
-	
 	public RegistroDeEstacionamiento(Sistema sistema, String patente, String zona) throws Exception{
-		if(LocalDateTime.now(clock).getHour() < 7 || LocalDateTime.now(clock).getHour() >= 20) {
+		if(!sistema.esHoraDeEstacionamiento()) {
 			throw new Exception("No se puede generar un registro de estacionamiento en este horario");
 		}
 		this.sistema = sistema;

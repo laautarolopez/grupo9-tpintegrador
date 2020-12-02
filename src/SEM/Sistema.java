@@ -1,21 +1,44 @@
 package SEM;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 public class Sistema {
+	private int valorDeHora;
 	private CentroCelulares centroCelulares;
 	private CentroZonas centroZonas;
 	private CentroInfracciones centroInfracciones;
 	private CentroRegistros centroRegistros;
 	
 	public Sistema() {
+		this.valorDeHora = 40;
 		centroCelulares = new CentroCelulares();
 		centroZonas = new CentroZonas();
 		centroInfracciones = new CentroInfracciones();
 		centroRegistros = new CentroRegistros();
 	}
 	
+	// GENERAL
+	public boolean esHoraDeEstacionamiento() {
+		Clock clock = Clock.system(ZoneId.of("GMT-3"));
+		return (LocalDateTime.now(clock).getHour() < 7) 
+			   || (LocalDateTime.now(clock).getHour() >= 20);
+	}
+	
+	public void setValorDeHora(int valor) {
+		this.valorDeHora = valor;
+	}
+	
+	public int getValorDeHora() {
+		return this.valorDeHora;
+	}
+	
 	// REGISTROS
 	public void finalizarEstacionamientos() {
-		centroRegistros.finalizarTodos();
+		if(!this.esHoraDeEstacionamiento()) {
+			centroRegistros.finalizarTodos();
+		}
 	}
 	
 	public boolean estaVigente(String patente) {
@@ -40,8 +63,20 @@ public class Sistema {
 		centroCelulares.restarSaldo(numero, monto);
 	}
 	
+	public int getSaldo(String numero) {
+		return centroCelulares.saldoDe(numero);
+	}
+	
 	// ZONAS
-	public void validarZona(String zona) throws Exception {
-		centroZonas.validarZona(zona);
+	public void agregarZona(String zona) {
+		centroZonas.agregarZona(zona);
+	}
+	
+	public void eliminarZona(String zona) {
+		centroZonas.eliminarZona(zona);
+	}
+	
+	public boolean esZonaDeEstacionamiento(String zona) {
+		return centroZonas.esZonaDeEstacionamiento(zona);
 	}
 }

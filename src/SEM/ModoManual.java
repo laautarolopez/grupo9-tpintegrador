@@ -1,8 +1,6 @@
 package SEM;
 
-public class ModoManual extends Modo{
-	protected Celular celular;
-	protected String patente;
+public class ModoManual extends Modo {
 	
 	public ModoManual(AplicacionCliente aplicacion) {
 		super(aplicacion);
@@ -14,27 +12,22 @@ public class ModoManual extends Modo{
 	}
 	
 	@Override
-	public void iniciarEstacionamiento(AplicacionCliente app) throws Exception {
-		app.generarRegistro();
+	public void iniciarEstacionamiento() {
+		
 	}
 
 	@Override
-	public boolean finalizacionManual() {
-		return true;
+	public void finalizarEstacionamiento() {
+		
+	}
+	
+	@Override
+	protected void realizarAccionWalkingADriving() {
+		
 	}
 
 	@Override
-	public boolean requiereNotificaciones() {
-		return true;
-	}
-	
-	@Override
-	public void walking() {
-		estado.aconsejarInicio(aplicacion);
-	}
-	
-	@Override
-	public void driving() {
-		estado.aconsejarFinal(aplicacion);
+	protected void realizarAccionDrivingAWalking() {
+		
 	}
 }
