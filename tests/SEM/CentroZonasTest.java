@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CentroZonasTest {
+public class CentroZonasTest {
 	private String zona1;
 	private String zona2;
 	private CentroZonas centroZonas;
@@ -48,5 +48,7 @@ class CentroZonasTest {
 		assertFalse(centroZonas.esZonaDeEstacionamiento(zona2));
 		centroZonas.agregarZona(zona2);
 		assertTrue(centroZonas.esZonaDeEstacionamiento(zona2));
+		
+		assertFalse(centroZonas.esZonaDeEstacionamiento("Berazategui"));
 	}
 }
