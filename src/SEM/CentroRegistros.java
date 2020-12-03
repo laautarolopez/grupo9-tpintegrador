@@ -1,74 +1,43 @@
 package SEM;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CentroRegistros extends Observable {
-	protected ArrayList<Registro> registros = new ArrayList<Registro>();
+	private List<RegistroDeEstacionamiento> registros = new ArrayList<RegistroDeEstacionamiento>();
 	
-	protected static CentroRegistros centro = null;
-	
-	protected CentroRegistros() {}
-	
-	public static CentroRegistros getCentro() {
-		if(centro == null) {
-			centro = new CentroRegistros();
-			return centro;
-		}else {
-			return centro;
-		} 
-	}
-	
-	public void registrarInicio(Registro registro) {
+	public void registrarInicio(RegistroDeEstacionamiento registro) {
 		registros.add(registro);
-		this.notifyObservers(registros);
+		this.notifyObservers("Inicio de: \n" + registro.toString());
 	}
 	
 	
 	public void finalizarTodos() {
-		ArrayList<Registro> aux = new ArrayList<Registro>();
-		aux.addAll(registros);
-		for(Registro i : aux) {
+		for(RegistroDeEstacionamiento i : registros) {
 			this.finalizar(i);
 		}
 	}
 	
 	public void registrarFinal(String patente) {
-		ArrayList<Registro> aux = new ArrayList<Registro>();
-		aux.addAll(registros);
-		for(Registro i : aux) {
-			if(i.getPatente() == patente) {
+		for(RegistroDeEstacionamiento i : registros) {
+			if(i.getPatente().equals(patente)) {
 				this.finalizar(i);
+				this.notifyObservers("Fin de: \n" + i.toString());
 			}
 		}
-		this.notifyObservers(registros);
 	}
 	
-	private void finalizar(Registro registro) {
+	private void finalizar(RegistroDeEstacionamiento registro) {
 		registro.finalizar();
 		registros.remove(registro);
 	}
 	
 	public boolean estaVigente(String patente) {
-		for(Registro i : registros) {
-			if(i.getPatente() == patente) {
+		for(RegistroDeEstacionamiento i : registros) {
+			if(i.getPatente().equals(patente)) {
 				return i.estaVigente();
 			}
 		}
 		return false;
-	}
-
-	public Registro getRegistro(String patente) throws Exception{
-		for(Registro i : registros) {
-			if(i.getPatente() == patente) {
-				return i;
-			}
-		}
-		throw new Exception("La patente " + patente + " no cuenta con un registro en el sistema");
-	}
-	
-	public void validarExistenciaDeEstacionamiento(String patente) throws Exception {
-		if(!this.estaVigente(patente)) {
-			throw new Exception("No hay un estacionamiento vigente para la patente " + patente);
-		}
 	}
 }

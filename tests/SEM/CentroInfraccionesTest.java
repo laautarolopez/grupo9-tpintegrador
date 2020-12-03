@@ -7,48 +7,41 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-
-class TestCentroInfracciones extends CentroInfracciones{
-	protected static TestCentroInfracciones centro = null;
-	
-	protected TestCentroInfracciones() {
-		super();
-	}
-	
-	public static TestCentroInfracciones getCentro() {
-		if(centro == null) {
-			centro = new TestCentroInfracciones();
-			return centro;
-		}else {
-			return centro;
-		} 
-	}
-	
-	public ArrayList<Infraccion> getInfracciones(){
-		return this.infracciones;
-	}
-}
-
 public class CentroInfraccionesTest {
-	public TestCentroInfracciones centroInfracciones;
+	public CentroInfracciones centroInfracciones;
 	public Infraccion infraccion1;
 	public Infraccion infraccion2;
 	
 	@BeforeEach
 	public void setUp() {
-		centroInfracciones = TestCentroInfracciones.getCentro();
+		centroInfracciones = new CentroInfracciones();
+		
+		infraccion1 = mock(Infraccion.class);
+		when(infraccion1.getPatente()).thenReturn("ABC123");
+		
+		infraccion2 = mock(Infraccion.class);
+		when(infraccion2.getPatente()).thenReturn("DEF456");
 	}
 	
 	@Test
-	public void testSingleton() {
-		assertEquals(centroInfracciones, TestCentroInfracciones.getCentro());
-	}
-	
-	@Test
-	public void agregarInfraccionTest() {
-		infraccion1 = mock(Infraccion.class);	
+	public void registrarInfraccionTest() {
 		centroInfracciones.registrarInfraccion(infraccion1);
-		assertTrue(centroInfracciones.getInfracciones().contains(infraccion1));
+		assertTrue(centroInfracciones.contieneInfraccion(infraccion1.getPatente()));
+		
+		centroInfracciones.registrarInfraccion(infraccion2);
+		assertTrue(centroInfracciones.contieneInfraccion(infraccion2.getPatente()));
+	}
+	
+	@Test
+	public void contieneInfraccionTest() {
+		assertFalse(centroInfracciones.contieneInfraccion(infraccion1.getPatente()));
+		centroInfracciones.registrarInfraccion(infraccion1);
+		assertTrue(centroInfracciones.contieneInfraccion(infraccion1.getPatente()));
+		
+		assertFalse(centroInfracciones.contieneInfraccion(infraccion2.getPatente()));
+		centroInfracciones.registrarInfraccion(infraccion2);
+		assertTrue(centroInfracciones.contieneInfraccion(infraccion2.getPatente()));
+		
+		assertFalse(centroInfracciones.contieneInfraccion("CCC111"));
 	}
 }

@@ -2,18 +2,17 @@ package SEM;
 
 import java.time.LocalDateTime;
 
-public class RegistroAplicacion extends Registro {
+public class RegistroAplicacion extends RegistroDeEstacionamiento {
 	private Celular celular;
-	private CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
 	
-	public RegistroAplicacion(String patente, String zona, Celular celular) throws Exception {
-		super(patente, zona);
+	public RegistroAplicacion(Sistema sistema, Celular celular) throws Exception {
+		super(sistema, celular.getPatente(), celular.getZona());
 		this.celular = celular;
 	}
 	
 	@Override
 	public void finalizar() {
-		centroCelulares.restarSaldo(celular.getNumero(),this.calcularCosto());
+		sistema.restarSaldo(celular.getNumero(),this.calcularCosto());
 	}
 
 
@@ -32,7 +31,7 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public int calcularCosto() {
-		return this.calcularDuracion() * 40;
+		return this.calcularDuracion() * sistema.getValorDeHora();
 	}
 
 
@@ -42,6 +41,16 @@ public class RegistroAplicacion extends Registro {
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		return this.calcularHoraDeFin(celular.getSaldoActual()/ 40);
+		return this.calcularHoraDeFin(celular.getSaldoActual() / sistema.getValorDeHora());
+	}
+	
+	@Override
+	public String toString() {
+		String resultado = "Patente: " + this.getPatente() + "\n" +
+						   "Hora de inicio: " + this.getHoraDeInicio().getHour() + ":" +
+						   					    this.getHoraDeInicio().getMinute() + "\n" +
+						   "Número de celular: " + this.getNumeroCelular() + "\n" +
+						   "Zona: " + this.getZona()+ "\n";
+		return resultado;
 	}
 }

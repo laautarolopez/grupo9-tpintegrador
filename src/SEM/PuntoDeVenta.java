@@ -1,20 +1,24 @@
 package SEM;
 
 public class PuntoDeVenta extends PuntoDeCarga implements GeneradorDeRegistros {
-	protected String zona;
-	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	protected int monto;
+	private String zona;
+	private int monto;
 	
-	public PuntoDeVenta(String zona) {
+	public PuntoDeVenta(Sistema sistema, String zona) {
+		super(sistema);
 		this.zona = zona;
 		this.monto = 0;
 	}
 	
+	public void setMonto(int monto) {
+		this.monto = monto;
+	}
+	
 	public void iniciarEstacionamiento(String patente, int horas) throws Exception {
 		if (horas > 0) {
-			this.monto += horas * valorDeHora;
-			RegistroPuntoDeVenta registro = new RegistroPuntoDeVenta(patente,this.zona, horas);
-			centroRegistros.registrarInicio(registro);
+			this.setMonto(monto + (horas * sistema.getValorDeHora()));
+			RegistroPuntoDeVenta registro = new RegistroPuntoDeVenta(sistema, patente,this.zona, horas);
+			sistema.registrarInicio(registro);
 		}
 	}
 }

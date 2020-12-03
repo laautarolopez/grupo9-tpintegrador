@@ -11,7 +11,7 @@ public class Notificador {
 	protected Clock clock = Clock.system(ZoneId.of("GMT-3"));
 	
 	
-	public void informarInicio(Celular celular, Registro registro) {
+	public void informarInicio(Celular celular, RegistroDeEstacionamiento registro) {
 		celular.notificar("Hora de inicio: " + registro.getHoraDeInicio() + 
 				 "Hora máxima de fin: " + registro.getHoraDeFin());
 	}
@@ -26,7 +26,7 @@ public class Notificador {
 				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
 	}
 
-	public void informarFinal(Celular celular, Registro registro) {
+	public void informarFinal(Celular celular, RegistroDeEstacionamiento registro) {
 		celular.notificar(("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getMinute() + "\n" +
 				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now(clock).getMinute() + "\n" +
 				"Duración: " + registro.calcularDuracion() + "\n" +

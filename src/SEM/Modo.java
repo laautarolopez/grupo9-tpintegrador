@@ -1,24 +1,37 @@
 package SEM;
 
 public abstract class Modo {
-	protected String estado;
+	Estado estado;
+	AplicacionCliente aplicacion;
+	
+	public Modo(AplicacionCliente aplicacion) {
+		this.estado = new EstadoWalking(this);
+		this.aplicacion = aplicacion;
+	}
+	
+	public Estado getEstado() {
+		return this.estado;
+	}
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 		
-	public abstract void iniciarEstacionamiento(AplicacionCliente aplicacionCliente) throws Exception;
+	public void walking() {
+		this.estado.walking();
+	}
+	
+	public void driving() {
+		this.estado.driving();
+	}
+	
+	public abstract void cambiarModo();
 
-	public abstract boolean finalizacionManual();
+	public abstract void iniciarEstacionamiento();
+
+	public abstract void finalizarEstacionamiento();
 	
-	public abstract boolean requiereNotificaciones();
+	protected abstract void realizarAccionWalkingADriving();
 	
-	void walking(AplicacionCliente app) throws Exception{
-		if(this.estado == "driving" && this.requiereNotificaciones()){
-			app.aconsejarInicio();
-		}
-	}
-	
-	void driving(AplicacionCliente app) throws Exception{
-		if(this.estado == "driving" && this.requiereNotificaciones()){
-			app.aconsejarFinal();
-		}
-	}
-	
+	protected abstract void realizarAccionDrivingAWalking();
 }

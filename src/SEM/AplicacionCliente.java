@@ -1,21 +1,27 @@
 package SEM;
 
-public class AplicacionCliente {
-	protected int valorDeHora = 40;
-	private Modo modo = new ModoManual();
-	protected Notificador notificador = new Notificador();
+public class AplicacionCliente implements MovementSensor {
+	private Sistema sistema;
+	private Modo modo;
+	private Notificador notificador;
 	private Celular celular;
-	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	protected CentroZonas centroZonas = CentroZonas.getCentro();
-	protected boolean consejosActivados = true;
+	private boolean consejosActivados;
+	private RegistroAplicacion registro;
 	
-	public AplicacionCliente(Celular celular, MovementSensor ms) {
+	public AplicacionCliente(Sistema sistema, Celular celular) {
+		this.sistema = sistema;
+		this.modo = new ModoManual(this);
+		this.notificador = new Notificador();
 		this.celular = celular;
-		ms.addApp(this);
+		this.consejosActivados = true;
 	}
 	
-	public void setValorDeHora(int valor) {
-		this.valorDeHora = valor;
+	public Modo getModo() {
+		return this.modo;
+	}
+	
+	public void setModo(Modo modo) {
+		this.modo = modo;
 	}
 	
 	public void activarConsejos() {
@@ -26,63 +32,65 @@ public class AplicacionCliente {
 		this.consejosActivados = false;
 	}
 	
-	public void cambiarModo(Modo modo) {
-		this.modo = modo;
+	public void cambiarModo() {
+		this.modo.cambiarModo();
 	}
 	
-	public void iniciarEstacionamiento() throws Exception {
-		modo.iniciarEstacionamiento(this);
+	public void iniciarEstacionamiento() {
+		this.modo.iniciarEstacionamiento();
 	}
 	
-	public void generarRegistro() throws Exception{
-		centroZonas.validarZona(celular.getZona());
-		celular.validarSaldo(this.valorDeHora);
-		RegistroAplicacion registro = new RegistroAplicacion(celular.getPatente(), celular.getZona(),celular);
-		notificador.informarInicio(celular, registro);
-		centroRegistros.registrarInicio(registro);
-	}
-	
-	protected void validarFinalizacionManual() throws Exception {
-		if(modo.finalizacionManual()) {
-			throw new Exception("El modo actual de la aplicación no permite finalizar estacionamientos de forma manual");
+	protected void realizarEstacionamiento() throws Exception {
+		if(celular.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
+		   && !this.tieneRegistroCreado()) {
+			RegistroAplicacion registro = new RegistroAplicacion(sistema, celular);
+			sistema.registrarInicio(registro);
+			notificador.informarInicio(celular, registro);
+			this.registro = registro;
 		}
 	}
-	public void finalizarEstacionamiento() throws Exception{
-		this.validarFinalizacionManual();
-		this.realizarFinalizacion();
-	}
 	
-	public void realizarFinalizacion() throws Exception{
-		centroRegistros.validarExistenciaDeEstacionamiento(celular.getPatente());
-		notificador.informarFinal(celular, centroRegistros.getRegistro(celular.getPatente()));
-		centroRegistros.registrarFinal(celular.getPatente());
-	}
-	
-	public void walking() throws Exception {
-		if(celular.estaEnZonaDeEstacionamiento()){
-			modo.walking(this);
-		}
+	private boolean tieneSaldoSuficiente() {
+		return celular.getSaldoActual() >= sistema.getValorDeHora();
 	}
 
+	public void finalizarEstacionamiento() {
+		this.modo.finalizarEstacionamiento();
+	}
+	
+	protected void realizarFinalizacion() {
+		if(this.tieneRegistroCreado()) {
+			sistema.registrarFinal(this.registro.getPatente());
+			notificador.informarFinal(celular, this.registro);
+			this.registro = null;
+		}
+	}
+	
+	private boolean tieneRegistroCreado() {
+		return this.registro != null;
+	}
+
+	@Override
+	public void walking() {
+		modo.walking();
+	}
+	
+	@Override
+	public void driving() {
+		modo.driving();
+	}
+	
 	public void aconsejarFinal() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
+		   && this.tieneRegistroCreado()) {
 			notificador.aconsejarFinal(celular);
 		}
-		
 	}
 
 	public void aconsejarInicio() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()) {
+		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
+		   && !this.tieneRegistroCreado()) {
 			notificador.aconsejarInicio(celular);
 		}
-		
 	}
-
-	public void driving() throws Exception {
-		if(celular.estaEnZonaDeEstacionamiento()) {
-			modo.driving(this);
-		}
-		
-	}
-
 }

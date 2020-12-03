@@ -1,24 +1,21 @@
 package SEM;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CentroInfracciones {
-	protected ArrayList<Infraccion> infracciones = new ArrayList<Infraccion>();
-	
-	protected static CentroInfracciones centro = null;
-	
-	protected CentroInfracciones() {}
-	
-	public static CentroInfracciones getCentro() {
-		if(centro == null) {
-			centro = new CentroInfracciones();
-			return centro;
-		}else {
-			return centro;
-		} 
-	}
+	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
 	
 	public void registrarInfraccion(Infraccion infraccion) {
 		infracciones.add(infraccion);
+	}
+	
+	public boolean contieneInfraccion(String patente) {
+		for(Infraccion i : infracciones) {
+			if(i.getPatente().equals(patente)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

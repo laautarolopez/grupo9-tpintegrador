@@ -9,5 +9,5 @@ public interface MovementSensor {
 	public void walking();
 
 	//No debería de ir este método.
-	public void addApp(AplicacionCliente aplicacionCliente);
+	//public void addApp(AplicacionCliente aplicacionCliente);
 }

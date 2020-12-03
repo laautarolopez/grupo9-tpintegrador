@@ -1,10 +1,14 @@
 package SEM;
 
 public class PuntoDeCarga {
-	protected CentroCelulares centroCelulares = CentroCelulares.getCentroCelulares();
+	Sistema sistema;
+	
+	public PuntoDeCarga(Sistema sistema) {
+		this.sistema = sistema;
+	}
 	
 	public void recargarCelular(Celular celular, int monto) {
-		this.centroCelulares.agregarSaldo(celular.getNumero(),monto);
+		sistema.agregarSaldo(celular.getNumero(),monto);
 	}
 	
 }

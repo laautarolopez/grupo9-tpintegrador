@@ -1,23 +1,37 @@
 package SEM;
 
-public class ModoManual extends Modo{
-	protected CentroRegistros centroRegistros = CentroRegistros.getCentro();
-	protected Celular celular;
-	protected String patente;
+public class ModoManual extends Modo {
+	
+	public ModoManual(AplicacionCliente aplicacion) {
+		super(aplicacion);
+	}
 	
 	@Override
-	public void iniciarEstacionamiento(AplicacionCliente app) throws Exception {
-		app.generarRegistro();
+	public void cambiarModo() {
+		aplicacion.setModo(new ModoAutomatico(aplicacion));
+	}
+	
+	@Override
+	public void iniciarEstacionamiento() {
+		try {
+			aplicacion.realizarEstacionamiento();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override
-	public boolean finalizacionManual() {
-		return true;
+	public void finalizarEstacionamiento() {
+		aplicacion.realizarFinalizacion();
+	}
+	
+	@Override
+	protected void realizarAccionWalkingADriving() {
+		aplicacion.aconsejarFinal();
 	}
 
 	@Override
-	public boolean requiereNotificaciones() {
-		return true;
+	protected void realizarAccionDrivingAWalking() {
+		aplicacion.aconsejarInicio();
 	}
-
 }
