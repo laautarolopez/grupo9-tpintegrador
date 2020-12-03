@@ -17,8 +17,8 @@ import static org.mockito.Mockito.*;
 public class RegistroAplicacionTest {
 	public class RegistroAppTesteable extends RegistroAplicacion{
 
-		public RegistroAppTesteable(Sistema sistema, Celular celular) {
-			super(sistema, celular );
+		public RegistroAppTesteable(Sistema sistema, AplicacionCliente app) {
+			super(sistema, app );
 		}
 		
 		public void setHoraDeInicio(LocalDateTime hora) {
@@ -37,7 +37,7 @@ public class RegistroAplicacionTest {
 		}
 	}
 	private String zona;
-	private Celular celular;
+	private AplicacionCliente app;
 	private RegistroAppTesteable registro;
 	private Clock clock;
 	private String patente;
@@ -47,14 +47,14 @@ public class RegistroAplicacionTest {
 	public void setUp() throws Exception {
 		patente = "OJL215";
 		zona = "Quilmes Oeste";
-		celular = mock(Celular.class);
+		app = mock(AplicacionCliente.class);
 		sistema = mock(Sistema.class);
-		when(celular.getNumero()).thenReturn("1145251452");
-		when(celular.getSaldoActual()).thenReturn(120);
-		when(celular.getPatente()).thenReturn("OJL215");
-		when(celular.getZona()).thenReturn(zona);
+		when(app.getNumero()).thenReturn("1145251452");
+		when(app.getSaldoActual()).thenReturn(120);
+		when(app.getPatente()).thenReturn("OJL215");
+		when(app.getZona()).thenReturn(zona);
 		when(sistema.getValorDeHora()).thenReturn(40);
-		registro = new RegistroAppTesteable(sistema, celular);
+		registro = new RegistroAppTesteable(sistema, app);
 	}
 	
 	@Test
