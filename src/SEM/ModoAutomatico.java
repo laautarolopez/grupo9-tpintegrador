@@ -13,7 +13,7 @@ public class ModoAutomatico extends Modo {
 	
 	@Override
 	public void iniciarEstacionamiento() {
-		System.out.println("El modo automático de la app no permite iniciar estacionamientos de forma manual");
+		System.out.println("El modo automatico de la app no permite iniciar estacionamientos de forma manual");
 	}
 	
 	@Override
