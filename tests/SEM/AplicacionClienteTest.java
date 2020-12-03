@@ -3,190 +3,163 @@ package SEM;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 class AplicacionClienteTest {
-	public class AppTesteable extends AplicacionCliente{
-		public AppTesteable(Sistema s, Celular celular) {
-			super(s, celular);
-		}
-		
-		public void setNotificador(Notificador notificador) {
-			this.notificador = notificador;
-		}
-		
-		public CentroRegistros centroRegistros() {
-			return this.centroRegistros;
-		}
-
-		public void setCentroZonas(CentroZonas cz) {
-			this.centroZonas = cz;
-		}
-
-		public void centroRegistros(CentroRegistros centro) {
-			this.centroRegistros = centro;
-			
-		}
-	}
+	
 	
 	Celular celular = mock(Celular.class);
-	MovementSensor ms = mock(MovementSensor.class);
-	AppTesteable app = new AppTesteable(celular,ms);
+	Sistema sistema = mock(Sistema.class);
+	AplicacionCliente app;
 	Notificador notificador = mock(Notificador.class);
-	private Modo modo = mock(Modo.class);
+	Modo modo = mock(Modo.class);
 	
-	@Test
-	void activarConsejos(){
-		app.activarConsejos();
-		assertTrue(app.consejos());	
+	
+	@BeforeEach
+	void setup() {
+		app= new AplicacionCliente(sistema,celular);
+		app.setModo(modo);
+
 	}
 	
 	@Test
-	void desactivarCosejos() {
-		app.desactivarConsejos();
-		assertFalse(app.consejos());
+	void cambiarNotificaciones(){
+		app.setNotificador(notificador);
+		app.switchNotificaciones();
+		verify(notificador, times(1)).cambiarModo(app);
 	}
+
 	
 	@Test
 	void aconsejarInicio() {
 		app.setNotificador(notificador);
-		app.activarConsejos();
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		app.aconsejarInicio();
-		verify(notificador, times(1)).aconsejarInicio(celular);
-	}
-	@Test
-	void aconsejarInicio2() {
-		app.setNotificador(notificador);
-		app.desactivarConsejos();
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
-		app.aconsejarInicio();
-		verify(notificador, times(0)).aconsejarInicio(celular);
-	}
-	
-	@Test
-	void aconsejarInicio3() {
-		app.setNotificador(notificador);
-		app.activarConsejos();
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(false);
-		app.aconsejarInicio();
-		verify(notificador, times(0)).aconsejarInicio(celular);
+		verify(notificador, times(1)).aconsejarInicio(celular, app);
 	}
 	
 	@Test
 	void aconsejarFinal() {
 		app.setNotificador(notificador);
-		app.activarConsejos();
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		app.aconsejarFinal();
-		verify(notificador, times(1)).aconsejarFinal(celular);
+		verify(notificador, times(1)).aconsejarFinal(celular, app);
 	}
+
 	@Test
-	void aconsejarFinal2() {
-		app.setNotificador(notificador);
-		app.desactivarConsejos();
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
-		app.aconsejarFinal();
-		verify(notificador, times(0)).aconsejarFinal(celular);
-	}
-	
-	@Test
-	void aconsejarFinal3() {
-		app.setNotificador(notificador);
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(false);
-		app.activarConsejos();
-		app.aconsejarFinal();
-		verify(notificador, times(0)).aconsejarFinal(celular);
-	}
-	@Test
-	void driving() throws Exception {
-		app.cambiarModo(modo);
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+	void driving() {
 		app.driving();
-		verify(modo,times(1)).driving(app);
+		verify(modo,times(1)).driving();
 	}
+
 	@Test
-	void driving2() throws Exception {
-		app.cambiarModo(modo);
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(false);
-		app.driving();
-		verify(modo,times(0)).driving(app);
-	}
-	@Test
-	void walking() throws Exception {
-		app.cambiarModo(modo);
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+	void walking(){
 		app.walking();
-		verify(modo,times(1)).walking(app);
+		verify(modo,times(1)).walking();
 	}
+
 	@Test
-	void walking2() throws Exception {
-		app.cambiarModo(modo);
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(false);
-		app.walking();
-		verify(modo,times(0)).walking(app);
-	}
-	@Test
-	void iniciarEstacionamiento() throws Exception {
-		app.cambiarModo(modo);
+	void iniciarEstacionamiento() {
 		app.iniciarEstacionamiento();
-		verify(modo, times(1)).iniciarEstacionamiento(app);
-	}
-	@Test
-	void validarFinManual() throws Exception {
-		app.cambiarModo(modo);
-		when(modo.finalizacionManual()).thenReturn(true);
-		assertThrows(Exception.class, () -> app.validarFinalizacionManual());
-	}
-	@Test
-	void validarFinManual2() throws Exception {
-		app.cambiarModo(modo);
-		when(modo.finalizacionManual()).thenReturn(false);
-		assertDoesNotThrow(() -> app.validarFinalizacionManual());
+		verify(modo, times(1)).iniciarEstacionamiento();
 	}
 	
+	
 	@Test
-	void generarRegistro() throws Exception {
+	void realizarEstacionamiento(){
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		when(celular.getSaldoActual()).thenReturn(120);
 		when(celular.getNumero()).thenReturn("12123");
 		when(celular.getPatente()).thenReturn("11111");
 		when(celular.getZona()).thenReturn("Varela");
-		CentroZonas cz = mock(CentroZonas.class);
-		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(true);
-		app.setCentroZonas(cz);
-		app.setNotificador(notificador);
-		app.generarRegistro();
-		verify(notificador, times(1)).informarInicio(celular,app.centroRegistros().getRegistro(celular.getPatente()));
-	}
-	
-	@Test 
-	void finalizarEstacionamiento() throws Exception{
-		app.cambiarModo(modo);
-		CentroZonas cz = mock(CentroZonas.class);
-		app.setCentroZonas(cz);
-		CentroRegistros centro = mock(CentroRegistros.class);
-		app.centroRegistros(centro);
-		app.setNotificador(notificador);
-		when(centro.estaVigente("123")).thenReturn(true);
-		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(true);
-		when(celular.getZona()).thenReturn("Varela");
-		when(celular.getPatente()).thenReturn("123");
-		app.generarRegistro();
-		app.finalizarEstacionamiento();
-		verify(modo,times(1)).finalizacionManual();
-		
+		when(sistema.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		when(sistema.esHoraDeEstacionamiento()).thenReturn(true);
+		app.realizarEstacionamiento();
+		assertNotNull(app.getRegistro());
+		verify(sistema,times(1)).registrarInicio(app.getRegistro());
 	}
 	
 	@Test
-	void realizarFinalizacion() throws Exception {
-		app.setNotificador(notificador);
-		when(celular.getPatente()).thenReturn("1231");
-		CentroRegistros centro = mock(CentroRegistros.class);
-		app.centroRegistros(centro);
-		app.realizarFinalizacion();
-		verify(centro, times(1)).validarExistenciaDeEstacionamiento("1231");
-		verify(centro, times(1)).registrarFinal("1231");
+	void realizarEstacionamiento2(){
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(false);
+		when(celular.getSaldoActual()).thenReturn(120);
+		when(celular.getNumero()).thenReturn("12123");
+		when(celular.getPatente()).thenReturn("11111");
+		when(celular.getZona()).thenReturn("Varela");
+		when(sistema.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		when(sistema.esHoraDeEstacionamiento()).thenReturn(true);
+		app.realizarEstacionamiento();
+		assertNull(app.getRegistro());
+		verify(sistema,times(0)).registrarInicio(app.getRegistro());
 	}
 	
+	@Test
+	void realizarEstacionamiento3(){
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(celular.getSaldoActual()).thenReturn(120);
+		when(celular.getNumero()).thenReturn("12123");
+		when(celular.getPatente()).thenReturn("11111");
+		when(celular.getZona()).thenReturn("Varela");
+		when(sistema.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		when(sistema.esHoraDeEstacionamiento()).thenReturn(false);
+		app.realizarEstacionamiento();
+		assertNull(app.getRegistro());
+		verify(sistema,times(0)).registrarInicio(app.getRegistro());
+	}
+	@Test
+	void realizarEstacionamiento4(){
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(celular.getSaldoActual()).thenReturn(10);
+		when(celular.getNumero()).thenReturn("12123");
+		when(celular.getPatente()).thenReturn("11111");
+		when(celular.getZona()).thenReturn("Varela");
+		when(sistema.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		when(sistema.esHoraDeEstacionamiento()).thenReturn(true);
+		app.realizarEstacionamiento();
+		assertNull(app.getRegistro());
+		verify(sistema,times(0)).registrarInicio(app.getRegistro());
+	}
 	
+	@Test 
+	void finalizarEstacionamiento() {
+		app.finalizarEstacionamiento();
+		verify(modo,times(1)).finalizarEstacionamiento();;
+	}
+	
+	@Test
+	void realizarFinalizacion()  {
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(celular.getSaldoActual()).thenReturn(120);
+		when(celular.getNumero()).thenReturn("12123");
+		when(celular.getPatente()).thenReturn("11111");
+		when(celular.getZona()).thenReturn("Varela");
+		when(sistema.esZonaDeEstacionamiento("Varela")).thenReturn(true);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		when(sistema.esHoraDeEstacionamiento()).thenReturn(true);
+		app.realizarEstacionamiento();
+		app.realizarFinalizacion();
+		verify(sistema,times(1)).registrarFinal("11111");
+	}
+	
+	@Test
+	void realizarFinalizacion2() {
+		when(celular.getPatente()).thenReturn("11111");
+		app.realizarFinalizacion();
+		verify(sistema,times(0)).registrarFinal("11111");
+	}
+	
+	@Test 
+	void cambiarModo(){
+		app.cambiarModo();
+		verify(modo,times(1)).cambiarModo();
+	}
+
 }

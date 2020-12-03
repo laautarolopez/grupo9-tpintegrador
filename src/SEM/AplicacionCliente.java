@@ -21,6 +21,10 @@ public class AplicacionCliente implements MovementSensor {
 		return this.modo;
 	}
 	
+	public RegistroAplicacion getRegistro() {
+		return this.registro;
+	}
+	
 	public void setModo(Modo modo) {
 		this.modo = modo;
 	}
