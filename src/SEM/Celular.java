@@ -1,18 +1,16 @@
 package SEM;
 
-public class Celular {
-	private Sistema sistema;
+public abstract class Celular {
+	Sistema sistema;
 	private String numero;
 	private String patenteLinkeada;
 	private Gps gps;
-	private AplicacionCliente aplicacion;
 	
 	public Celular(Sistema sistema, String numero, String patente, Gps gps) {
 		this.sistema = sistema;
 		this.numero = numero;
 		this.patenteLinkeada = patente;
 		this.gps = gps;
-		this.aplicacion = new AplicacionCliente(sistema, this);
 	}
 	
 	public String getPatente() {
@@ -42,5 +40,4 @@ public class Celular {
 	public void notificar(String mensaje) {
 		System.out.println(mensaje);
 	}
-
 }

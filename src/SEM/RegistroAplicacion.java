@@ -3,18 +3,22 @@ package SEM;
 import java.time.LocalDateTime;
 
 public class RegistroAplicacion extends RegistroDeEstacionamiento {
-	private Celular celular;
+	private AplicacionCliente aplicacion;
 	private LocalDateTime horaDeFinalizacion = null;
+	private boolean estaVigente;
 	
-	public RegistroAplicacion(Sistema sistema, Celular celular) {
-		super(sistema, celular.getPatente(), celular.getZona());
-		this.celular = celular;
+	public RegistroAplicacion(Sistema sistema, AplicacionCliente aplicacion) {
+		super(sistema, aplicacion.getPatente(), aplicacion.getZona());
+		this.aplicacion = aplicacion;
+		this.estaVigente = true;
 	}
 	
 	@Override
 	public void finalizar() {
 		this.setHorarioDeFinalizacion();
-		sistema.restarSaldo(celular.getNumero(),this.calcularCosto());
+		sistema.restarSaldo(aplicacion.getNumero(), this.calcularCosto());
+		aplicacion.terminarRegistro();
+		this.estaVigente = false;
 	}
 
 
@@ -49,12 +53,17 @@ public class RegistroAplicacion extends RegistroDeEstacionamiento {
 
 
 	public String getNumeroCelular() {
-		return this.celular.getNumero();
+		return this.aplicacion.getNumero();
 	}
 	
 	@Override
 	public LocalDateTime getHoraDeFin() {
-		return this.calcularHoraDeFin(celular.getSaldoActual() / sistema.getValorDeHora());
+		return this.calcularHoraDeFin(aplicacion.getSaldoActual() / sistema.getValorDeHora());
+	}
+	
+	@Override
+	public boolean estaVigente() {
+		return super.estaVigente() && estaVigente; 
 	}
 	
 	@Override

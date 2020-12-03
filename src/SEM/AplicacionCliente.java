@@ -1,21 +1,16 @@
 package SEM;
 
-public class AplicacionCliente implements MovementSensor {
-	private Sistema sistema;
+public class AplicacionCliente extends Celular implements MovementSensor {
 	private Modo modo;
 	private Notificador notificador;
-	private Celular celular;
 	private RegistroAplicacion registro;
 	
-	public AplicacionCliente(Sistema sistema, Celular celular) {
-		this.sistema = sistema;
+	public AplicacionCliente(Sistema sistema, String numero, String patente, Gps gps) {
+		super(sistema, numero, patente, gps);
 		this.modo = new ModoManual(this);
 		this.notificador = new NotificacionesActivadas();
-		this.celular = celular;
 		this.registro = null;
 	}
-	
-	
 	
 	public Modo getModo() {
 		return this.modo;
@@ -39,20 +34,20 @@ public class AplicacionCliente implements MovementSensor {
 	
 	protected void realizarEstacionamiento() {
 		if(this.condicionesDadasParaIniciar()) {
-			RegistroAplicacion registro = new RegistroAplicacion(sistema, celular);
+			RegistroAplicacion registro = new RegistroAplicacion(sistema, this);
 			sistema.registrarInicio(registro);
-			notificador.informarInicio(celular, registro);
+			notificador.informarInicio(this, registro);
 			this.registro = registro;
 		}
 	}
 	
 	private boolean condicionesDadasParaIniciar() {
-		return celular.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
+		return this.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
 				   && !this.tieneRegistroCreado() && sistema.esHoraDeEstacionamiento();
 	}
 	
 	private boolean tieneSaldoSuficiente() {
-		return celular.getSaldoActual() >= sistema.getValorDeHora();
+		return this.getSaldoActual() >= sistema.getValorDeHora();
 	}
 
 	public void finalizarEstacionamiento() {
@@ -62,9 +57,13 @@ public class AplicacionCliente implements MovementSensor {
 	protected void realizarFinalizacion() {
 		if(this.tieneRegistroCreado()) {
 			sistema.registrarFinal(this.registro.getPatente());
-			notificador.informarFinal(celular, this.registro);
-			this.registro = null;
+			notificador.informarFinal(this, this.registro);
+			this.terminarRegistro();
 		}
+	}
+	
+	protected void terminarRegistro() {
+		this.registro = null;
 	}
 	
 	public boolean tieneRegistroCreado() {
@@ -82,17 +81,14 @@ public class AplicacionCliente implements MovementSensor {
 	}
 	
 	public void aconsejarFinal() {
-		notificador.aconsejarFinal(celular,this);
+		notificador.aconsejarFinal(this, this);
 	}
 
 	public void aconsejarInicio() {
-		notificador.aconsejarInicio(celular,this);
+		notificador.aconsejarInicio(this, this);
 	}
-
-
-
+	
 	public void setNotificador(Notificador n) {
 		this.notificador = n;
-		
 	}
 }

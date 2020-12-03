@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Observable {
-	protected ArrayList<Observer> obs = new ArrayList<Observer>();
+	private List<Observer> obs = new ArrayList<Observer>();
 	
 	public void addObserver(Observer o) {
 		this.obs.add(o);
@@ -18,9 +18,7 @@ public class Observable {
 	
 	public int countObservers() {
 		return this.obs.size();
-	}
-	
-
+	}	
 	
 	public void notifyObservers(Object param) {
 		for(Observer o : obs) {
