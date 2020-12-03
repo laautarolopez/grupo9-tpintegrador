@@ -14,8 +14,7 @@ class ObserverTest {
 	
 	@BeforeEach
 	void setup() {
-		observer = new Observer();
-		spyobserver = spy(observer);
+		
 	}
 	@Test
 	void agregarObserver() {

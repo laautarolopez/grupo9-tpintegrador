@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CentroRegistros extends Observable {
-	private List<RegistroDeEstacionamiento> registros = new ArrayList<RegistroDeEstacionamiento>();
+	private ArrayList<RegistroDeEstacionamiento> registros = new ArrayList<RegistroDeEstacionamiento>();
 	
 	public void registrarInicio(RegistroDeEstacionamiento registro) {
 		registros.add(registro);
@@ -31,9 +31,11 @@ public class CentroRegistros extends Observable {
 			this.notifyObservers("Fin de: \n" + aFinalizar.toString());
 			this.finalizar(aFinalizar);
 			registros = aux;
+			this.notifyObservers("Final de: " + aFinalizar.toString());
 		}else {
 			registros.addAll(aux);
 		}
+		
 	}
 	
 	private void finalizar(RegistroDeEstacionamiento registro) {
