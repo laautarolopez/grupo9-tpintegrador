@@ -92,6 +92,16 @@ public class CentroRegistrosTest {
 		assertFalse(registros.contains(registro1));
 		verify(registro1, times(1)).finalizar();
 	}
+	
+	@Test
+	void deleteObserver() {
+		Observer observer = mock(Observer.class);
+		centroConocido.addObserver(observer);
+		assertEquals(1,centroConocido.countObservers());
+		centroConocido.deleteObserver(observer);
+		centroConocido.deleteObserver(observer);
+		assertEquals(0,centroConocido.countObservers());
+	}
 
 }
 	

@@ -3,23 +3,46 @@ package SEM;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 class ModoManualTest {
+	@InjectMocks
+	ModoManual modo;
+	@Mock
+	AplicacionCliente app;
 	
-	ModoManual modo = new ModoManual();
-	AplicacionCliente app = mock(AplicacionCliente.class);
+	ByteArrayOutputStream b;
+	@BeforeEach
+	void setup() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
-	void testFinalizacionManual() {
-		assertTrue(modo.finalizacionManual());
+	void iniciarE() {
+		modo.iniciarEstacionamiento();
+		verify(app,times(1)).realizarEstacionamiento();
 	}
 	@Test
-	void testRequiereNotificacionesManual() {
-		assertTrue(modo.requiereNotificaciones());
+	void finalizarE() {
+		modo.finalizarEstacionamiento();
+		verify(app,times(1)).realizarFinalizacion();
 	}
 	@Test
-	void iniciar() throws Exception {
-		modo.iniciarEstacionamiento(app);
-		verify(app,times(1)).generarRegistro();
+	void WalkingADriving() {
+		modo.realizarAccionWalkingADriving();
+		verify(app,times(1)).aconsejarFinal();
+	}
+	
+	@Test
+	void DrivingAWalking() {
+		modo.realizarAccionDrivingAWalking();
+		verify(app,times(1)).aconsejarInicio();
 	}
 }

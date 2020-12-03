@@ -13,7 +13,7 @@ public class ModoManual extends Modo {
 	
 	@Override
 	public void iniciarEstacionamiento() {
-			aplicacion.realizarEstacionamiento();
+		aplicacion.realizarEstacionamiento();
 	}
 
 	@Override
