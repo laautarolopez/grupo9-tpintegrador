@@ -17,8 +17,8 @@ import static org.mockito.Mockito.*;
 public class RegistroAplicacionTest {
 	public class RegistroAppTesteable extends RegistroAplicacion{
 
-		public RegistroAppTesteable(String patente, String zona, Celular celular) throws Exception {
-			super(patente, zona, celular );
+		public RegistroAppTesteable(Sistema sistema, Celular celular) {
+			super(sistema, celular );
 		}
 		
 		public void setHoraDeInicio(LocalDateTime hora) {
@@ -36,22 +36,25 @@ public class RegistroAplicacionTest {
 			return this.calcularDuracion();
 		}
 	}
-	private String patente;
 	private String zona;
 	private Celular celular;
 	private RegistroAppTesteable registro;
 	private Clock clock;
-	private CentroCelulares centro;
+	private String patente;
+	private Sistema sistema;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		centro = mock(CentroCelulares.class);
 		patente = "OJL215";
 		zona = "Quilmes Oeste";
 		celular = mock(Celular.class);
-		registro = new RegistroAppTesteable(patente, zona, celular);
+		sistema = mock(Sistema.class);
 		when(celular.getNumero()).thenReturn("1145251452");
 		when(celular.getSaldoActual()).thenReturn(120);
+		when(celular.getPatente()).thenReturn("OJL215");
+		when(celular.getZona()).thenReturn(zona);
+		when(sistema.getValorDeHora()).thenReturn(40);
+		registro = new RegistroAppTesteable(sistema, celular);
 	}
 	
 	@Test
@@ -129,5 +132,41 @@ public class RegistroAplicacionTest {
 		Clock clock3 = Clock.fixed(Instant.parse("2020-11-10T23:30:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock3);
 		assertEquals(10,registro.obtenerHoras());
+	}
+	
+	@Test
+	public void horarioFinalizacion1() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T13:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		clock = Clock.fixed(Instant.parse("2020-11-10T18:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.finalizar();
+		assertEquals("13:24",registro.getHorarioDeFinalizacion());
+	}
+	@Test
+	public void horarioFinalizacion2() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T13:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		clock = Clock.fixed(Instant.parse("2020-11-10T15:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		assertEquals("Desconocida", registro.getHorarioDeFinalizacion());
+		registro.finalizar();
+		assertEquals("12:24",registro.getHorarioDeFinalizacion());
+	}
+	
+	@Test 
+	void registroToString() {
+		String info = "Patente: " + patente + "\n" +
+				   "Hora de inicio: " + "10" + ":" +
+				   					    "24" + "\n" +
+				   "Hora de finalizacion: " + "Desconocida" + "\n" +
+				   "Número de celular: " + "1145251452" + "\n" +
+				   "Zona: " + zona + "\n";
+		clock = Clock.fixed(Instant.parse("2020-11-10T13:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		registro.setHoraDeInicio(LocalDateTime.now(clock));
+		assertEquals(info,registro.toString());
 	}
 }

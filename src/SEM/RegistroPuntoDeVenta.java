@@ -8,7 +8,7 @@ public class RegistroPuntoDeVenta extends RegistroDeEstacionamiento {
 	private int costo;
 	
 	public RegistroPuntoDeVenta(Sistema sistema, String patente, 
-								String zona, int horas) throws Exception {
+								String zona, int horas) {
 		super(sistema, patente, zona);
 		this.costo = horas * sistema.getValorDeHora();
 		this.setHoraDeFin(horas);

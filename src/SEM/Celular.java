@@ -42,8 +42,5 @@ public class Celular {
 	public void notificar(String mensaje) {
 		System.out.println(mensaje);
 	}
-	
-	public void cambiarModoApp() {
-		this.aplicacion.cambiarModo();
-	}
+
 }

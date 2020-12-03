@@ -11,10 +11,7 @@ public abstract class RegistroDeEstacionamiento {
 	private String patente;
 	private String zona;
 	
-	public RegistroDeEstacionamiento(Sistema sistema, String patente, String zona) throws Exception{
-		if(!sistema.esHoraDeEstacionamiento()) {
-			throw new Exception("No se puede generar un registro de estacionamiento en este horario");
-		}
+	public RegistroDeEstacionamiento(Sistema sistema, String patente, String zona){
 		this.sistema = sistema;
 		this.patente = patente;
 		this.zona = zona;

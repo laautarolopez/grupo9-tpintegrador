@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CentroRegistros extends Observable {
-	private List<RegistroDeEstacionamiento> registros = new ArrayList<RegistroDeEstacionamiento>();
+	private ArrayList<RegistroDeEstacionamiento> registros = new ArrayList<RegistroDeEstacionamiento>();
 	
 	public void registrarInicio(RegistroDeEstacionamiento registro) {
 		registros.add(registro);
@@ -13,18 +13,29 @@ public class CentroRegistros extends Observable {
 	
 	
 	public void finalizarTodos() {
-		for(RegistroDeEstacionamiento i : registros) {
-			this.finalizar(i);
+		while(!registros.isEmpty()) {
+			this.finalizar(registros.get(0));
 		}
 	}
 	
 	public void registrarFinal(String patente) {
-		for(RegistroDeEstacionamiento i : registros) {
-			if(i.getPatente().equals(patente)) {
-				this.finalizar(i);
-				this.notifyObservers("Fin de: \n" + i.toString());
-			}
+		ArrayList<RegistroDeEstacionamiento> aux = new ArrayList<RegistroDeEstacionamiento>();
+		
+		while(!registros.isEmpty() && registros.get(0).getPatente() != patente) {
+			aux.add(registros.get(0));
+			registros.remove(0);
 		}
+		
+		if(!registros.isEmpty()) {
+			RegistroDeEstacionamiento aFinalizar = registros.get(0);
+			this.notifyObservers("Fin de: \n" + aFinalizar.toString());
+			this.finalizar(aFinalizar);
+			registros = aux;
+			this.notifyObservers("Final de: " + aFinalizar.toString());
+		}else {
+			registros.addAll(aux);
+		}
+		
 	}
 	
 	private void finalizar(RegistroDeEstacionamiento registro) {

@@ -10,21 +10,20 @@ import static org.mockito.Mockito.*;
 public class AplicacionInspectorTest {
 	private AplicacionInspector aplicacion;
 	private Inspector inspector;
-	private Registro registro;
-	private CentroRegistros centroRegistros = CentroRegistros.getCentro();
+	private RegistroDeEstacionamiento registro;
+	private Sistema sistema;
 	
 	@BeforeEach
 	public void setUp() {
 		inspector = mock(Inspector.class);
-		registro = mock(Registro.class);
-		aplicacion = new AplicacionInspector(inspector);
+		registro = mock(RegistroDeEstacionamiento.class);
+		sistema = mock(Sistema.class);
+		aplicacion = new AplicacionInspector(sistema, inspector);
 	}
 	
 	@Test
 	public void estaVigenteTest() {
-		centroRegistros.registrarInicio(registro);
-		when(registro.estaVigente()).thenReturn(true);
-		when(registro.getPatente()).thenReturn("abc123");
+		when(sistema.estaVigente("abc123")).thenReturn(true);
 		assertTrue(aplicacion.estaVigente("abc123"));
 	}
 	
@@ -32,5 +31,6 @@ public class AplicacionInspectorTest {
 	public void altaDeInfraccionTest() {
 		when(aplicacion.estaVigente("abc123")).thenReturn(false);
 		aplicacion.altaDeInfraccion("abc123");
+		verify(sistema,times(1)).registrarInfraccion(new Infraccion("abc123", inspector));
 	}
 }
