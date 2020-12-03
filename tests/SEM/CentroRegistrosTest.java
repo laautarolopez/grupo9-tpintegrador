@@ -1,13 +1,12 @@
 package SEM;
+
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -68,7 +67,7 @@ public class CentroRegistrosTest {
 		centroConocido.addObserver(observer);
 		centroConocido.registrarInicio(registro1);
 		centroConocido.registrarFinal("abc123");
-		verify(observer,times(1)).update("Final de: " + "a");
+		verify(observer,times(1)).update("Fin de: \n" + "a");
 	}
 
 	@Test

@@ -12,16 +12,17 @@ public class CentroRegistros extends Observable {
 	}
 	
 	public void finalizarTodos() {
-		for(RegistroDeEstacionamiento i : registros) {
-			this.finalizar(i);
+		while(!registros.isEmpty()) {
+			this.finalizar(registros.get(0));
 		}
 	}
-	
+
 	public void registrarFinal(String patente) {
-		for(RegistroDeEstacionamiento i : registros) {
-			if(i.getPatente().equals(patente)) {
-				this.finalizar(i);
-				this.notifyObservers("Fin de: \n" + i.toString());
+		for(int i = 0; i < registros.size(); i++) {
+			if(registros.get(i).getPatente().equals(patente)) {
+				this.notifyObservers("Fin de: \n" + registros.get(i).toString());
+				this.finalizar(registros.get(i));
+				i--;
 			}
 		}
 	}
