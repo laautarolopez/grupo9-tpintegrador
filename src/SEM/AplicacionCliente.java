@@ -5,16 +5,17 @@ public class AplicacionCliente implements MovementSensor {
 	private Modo modo;
 	private Notificador notificador;
 	private Celular celular;
-	private boolean consejosActivados;
 	private RegistroAplicacion registro;
 	
 	public AplicacionCliente(Sistema sistema, Celular celular) {
 		this.sistema = sistema;
 		this.modo = new ModoManual(this);
-		this.notificador = new Notificador();
+		this.notificador = new NotificacionesActivadas();
 		this.celular = celular;
-		this.consejosActivados = true;
+		this.registro = null;
 	}
+	
+	
 	
 	public Modo getModo() {
 		return this.modo;
@@ -24,12 +25,8 @@ public class AplicacionCliente implements MovementSensor {
 		this.modo = modo;
 	}
 	
-	public void activarConsejos() {
-		this.consejosActivados = true;
-	}
-	
-	public void desactivarConsejos() {
-		this.consejosActivados = false;
+	public void switchNotificaciones() {
+		this.notificador.cambiarModo(this);
 	}
 	
 	public void cambiarModo() {
@@ -40,14 +37,18 @@ public class AplicacionCliente implements MovementSensor {
 		this.modo.iniciarEstacionamiento();
 	}
 	
-	protected void realizarEstacionamiento() throws Exception {
-		if(celular.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
-		   && !this.tieneRegistroCreado()) {
+	protected void realizarEstacionamiento() {
+		if(this.condicionesDadasParaIniciar()) {
 			RegistroAplicacion registro = new RegistroAplicacion(sistema, celular);
 			sistema.registrarInicio(registro);
 			notificador.informarInicio(celular, registro);
 			this.registro = registro;
 		}
+	}
+	
+	private boolean condicionesDadasParaIniciar() {
+		return celular.estaEnZonaDeEstacionamiento() && this.tieneSaldoSuficiente()
+				   && !this.tieneRegistroCreado() && sistema.esHoraDeEstacionamiento();
 	}
 	
 	private boolean tieneSaldoSuficiente() {
@@ -66,7 +67,7 @@ public class AplicacionCliente implements MovementSensor {
 		}
 	}
 	
-	private boolean tieneRegistroCreado() {
+	public boolean tieneRegistroCreado() {
 		return this.registro != null;
 	}
 
@@ -81,16 +82,17 @@ public class AplicacionCliente implements MovementSensor {
 	}
 	
 	public void aconsejarFinal() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
-		   && this.tieneRegistroCreado()) {
-			notificador.aconsejarFinal(celular);
-		}
+		notificador.aconsejarFinal(celular,this);
 	}
 
 	public void aconsejarInicio() {
-		if(consejosActivados && celular.estaEnZonaDeEstacionamiento()
-		   && !this.tieneRegistroCreado()) {
-			notificador.aconsejarInicio(celular);
-		}
+		notificador.aconsejarInicio(celular,this);
+	}
+
+
+
+	public void setNotificador(Notificador n) {
+		this.notificador = n;
+		
 	}
 }

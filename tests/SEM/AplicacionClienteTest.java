@@ -7,12 +7,8 @@ import org.junit.jupiter.api.Test;
 
 class AplicacionClienteTest {
 	public class AppTesteable extends AplicacionCliente{
-		public AppTesteable(Celular celular, MovementSensor ms) {
-			super(celular, ms);
-		}
-
-		public boolean consejos() {
-			return this.consejosActivados;
+		public AppTesteable(Sistema s, Celular celular) {
+			super(s, celular);
 		}
 		
 		public void setNotificador(Notificador notificador) {

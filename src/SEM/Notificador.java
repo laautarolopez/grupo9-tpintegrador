@@ -1,35 +1,14 @@
 package SEM;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+public interface Notificador {
 
+	void informarInicio(Celular celular, RegistroDeEstacionamiento registro);
 
+	void informarFinal(Celular celular, RegistroDeEstacionamiento registro);
 
-public class Notificador {
-	
-	protected Clock clock = Clock.system(ZoneId.of("GMT-3"));
-	
-	
-	public void informarInicio(Celular celular, RegistroDeEstacionamiento registro) {
-		celular.notificar("Hora de inicio: " + registro.getHoraDeInicio() + 
-				 "Hora máxima de fin: " + registro.getHoraDeFin());
-	}
-	
-	public void aconsejarInicio(Celular celular) {
-		celular.notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
-				+ " te recomendamos que lo inicies desde la app para evitar multas");
-	}
-	
-	public void aconsejarFinal(Celular celular) {
-		celular.notificar("Se detectó que finalizaste un estacionamiento,"
-				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
-	}
+	void aconsejarInicio(Celular celular, AplicacionCliente app);
 
-	public void informarFinal(Celular celular, RegistroDeEstacionamiento registro) {
-		celular.notificar(("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getMinute() + "\n" +
-				"Hora de fin: " + LocalDateTime.now(clock).getHour()+ ":" + LocalDateTime.now(clock).getMinute() + "\n" +
-				"Duración: " + registro.calcularDuracion() + "\n" +
-				"Costo: " + registro.calcularCosto()));
-	}
+	void aconsejarFinal(Celular celular, AplicacionCliente app);
+	
+	void cambiarModo(AplicacionCliente app);
 }

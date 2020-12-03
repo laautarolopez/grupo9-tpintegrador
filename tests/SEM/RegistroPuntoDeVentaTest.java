@@ -1,5 +1,5 @@
 package SEM;
-
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 public class RegistroPuntoDeVentaTest {
 	public class RegistroPuntoTesteable extends RegistroPuntoDeVenta{
 
-		public RegistroPuntoTesteable(String patente, String zona, int horas) throws Exception {
-			super(patente, zona, horas);
+		public RegistroPuntoTesteable(Sistema sistema, String patente, String zona, int horas) {
+			super(sistema,patente, zona, horas);
 		}
 		
 		public void setHoraDeInicio(LocalDateTime hora) {
@@ -36,13 +36,14 @@ public class RegistroPuntoDeVentaTest {
 	private String zona;
 	private RegistroPuntoTesteable registro;
 	private Clock clock;
+	private Sistema sistema = mock(Sistema.class);
 	
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		patente = "AFE105";
 		zona = "Quilmes Oeste";
-		registro = new RegistroPuntoTesteable(patente, zona, 3);
+		registro = new RegistroPuntoTesteable(sistema,patente, zona, 3);
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		registro.setHoraDeInicio(LocalDateTime.now(clock));
@@ -92,5 +93,16 @@ public class RegistroPuntoDeVentaTest {
 		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
 		registro.setClock(clock);
 		assertEquals(3,registro.calcularDuracion());
+	}
+	
+	@Test
+	public void registroToString() {
+		clock = Clock.fixed(Instant.parse("2020-11-10T19:24:24.498559900Z"), ZoneId.of("GMT-3"));
+		registro.setClock(clock);
+		String info = "Patente: " + "AFE105" + "\n" +
+				   "Hora de inicio: " + "16" + ":" +
+						"24" + "\n" +
+						"Zona: " + "Quilmes Oeste" + "\n";
+		assertEquals(info, registro.toString());
 	}
 }

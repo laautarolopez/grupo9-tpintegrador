@@ -1,6 +1,8 @@
 package SEM;
 
+
 import java.time.LocalDateTime;
+
 
 public class Infraccion {
 	private String patente;
@@ -14,6 +16,7 @@ public class Infraccion {
 		this.inspector = inspector;
 		this.zona = inspector.getZona();
 	}
+
 	
 	public String getPatente() {
 		return this.patente;
@@ -29,5 +32,22 @@ public class Infraccion {
 	
 	public String getZona() {
 		return this.zona;
+	}
+	
+	@Override 
+	public boolean equals(Object o) {
+		if (o == this) { 
+            return true; 
+        }
+		
+		if (!(o instanceof Infraccion)) { 
+	            return false; 
+	    }
+		
+		
+		Infraccion i = (Infraccion) o;
+		
+		return this.getPatente().equals(i.getPatente()) && this.getInspector().equals(i.getInspector());
+				
 	}
 }

@@ -13,11 +13,7 @@ public class ModoManual extends Modo {
 	
 	@Override
 	public void iniciarEstacionamiento() {
-		try {
 			aplicacion.realizarEstacionamiento();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
 	@Override
