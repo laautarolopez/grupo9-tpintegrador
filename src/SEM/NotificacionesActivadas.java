@@ -40,6 +40,5 @@ public class NotificacionesActivadas implements Notificador{
 	@Override
 	public void cambiarModo(AplicacionCliente app) {
 		app.setNotificador(new NotificacionesDesactivadas());
-		
 	}
 }
