@@ -4,50 +4,23 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PuntoDeVentaTesteable extends PuntoDeVenta{
-	
-	public PuntoDeVentaTesteable(String zona) {
-		super(zona);
-	}
 
-	public String getZona() {
-		return this.zona;
-	}
-	
-	public void setCentroRegistros(CentroRegistros centro) {
-		this.centroRegistros = centro;
-	}
-	public void setCentroCelulares(CentroCelulares centro) {
-		this.centroCelulares = centro;
-	}
-	
-	public CentroCelulares getCentroCelulares() {
-		return this.centroCelulares;
-	}
-	
-	public CentroRegistros getCentroRegistros() {
-		return this.centroRegistros;
-	}
-}
 class PuntoDeVentaTest {
 	
 
-	
-	public PuntoDeVentaTesteable pv;
+	private Sistema sistema;
+	public PuntoDeVenta pv;
 	@BeforeEach
 	void setup() {
 		String zona = "Quilmes Oeste";
-		CentroRegistros centR = mock(CentroRegistros.class);
-		CentroCelulares centC = mock(CentroCelulares.class);
-		pv = new PuntoDeVentaTesteable(zona);
-		pv.setCentroRegistros(centR);
-		pv.setCentroCelulares(centC);
+		sistema = spy(Sistema.class);
+		pv = new PuntoDeVenta(sistema, zona);
 	}
 	
 	@Test
 	void inciarEstacionamientoTest() throws Exception {
 		pv.iniciarEstacionamiento("abc123", 120);
-		//verify(pv.getCentroRegistros(),times(1)).registrarInicio();
+		
 	}
 	
 	@Test
@@ -64,7 +37,7 @@ class PuntoDeVentaTest {
 		when(celular.getNumero()).thenReturn("1234");
 		when(celular.getSaldoActual()).thenReturn(120);
 		pv.recargarCelular(celular, 120);
-		verify(pv.getCentroCelulares(), times(1)).agregarSaldo("1234",120);
+		verify(sistema, times(1)).agregarSaldo("1234",120);
 	}
 
 }

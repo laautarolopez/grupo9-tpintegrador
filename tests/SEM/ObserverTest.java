@@ -8,18 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 class ObserverTest {
+
 	
-	class ObservableTesteable extends Observable{
-		public ArrayList<Observer> getObservers(){
-			return observers;
-		}
-	}
-	
-	ObservableTesteable observableTesteable;
+	Observer observer;
 	
 	@BeforeEach
 	void setup() {
-		observableTesteable = new ObservableTesteable();
+		observer = new Observer();
+		spyobserver = spy(observer);
 	}
 	@Test
 	void agregarObserver() {

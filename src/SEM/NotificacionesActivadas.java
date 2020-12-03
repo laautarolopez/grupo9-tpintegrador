@@ -17,7 +17,7 @@ public class NotificacionesActivadas implements Notificador{
 	}
 	@Override
 	public void aconsejarInicio(Celular celular, AplicacionCliente app) {
-		if(celular.estaEnZonaDeEstacionamiento() && app.tieneRegistroCreado()) {
+		if(celular.estaEnZonaDeEstacionamiento() && !app.tieneRegistroCreado()) {
 			celular.notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
 					+ " te recomendamos que lo inicies desde la app para evitar multas");			
 		}

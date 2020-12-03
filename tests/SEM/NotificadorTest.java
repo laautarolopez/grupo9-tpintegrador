@@ -16,12 +16,12 @@ import java.time.ZoneId;
 
 
 class NotificadorTest {
-	Registro registro = mock(Registro.class);
+	RegistroDeEstacionamiento registro = mock(RegistroDeEstacionamiento.class);
 	Celular celular = mock(Celular.class);
 	NotificadorTesteable notificador = new NotificadorTesteable();
 	Clock clock = Clock.fixed(Instant.parse("2020-11-10T17:24:24.498559900Z"), ZoneId.systemDefault());
-	
-	public class NotificadorTesteable extends Notificador{
+	AplicacionCliente app = mock(AplicacionCliente.class);
+	public class NotificadorTesteable extends NotificacionesActivadas{
 		public void setClock(Clock clock) {
 			this.clock = clock;
 		}
@@ -38,14 +38,37 @@ class NotificadorTest {
 	
 	@Test
 	void aconsejarInicioTest() {
-		notificador.aconsejarInicio(celular);
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.tieneRegistroCreado()).thenReturn(false);
+		notificador.aconsejarInicio(celular, app);
 		verify(celular, times(1)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
 				+ " te recomendamos que lo inicies desde la app para evitar multas");
 	}
+	
+	@Test
+	void aconsejarInicioTest2() {
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.tieneRegistroCreado()).thenReturn(true);
+		notificador.aconsejarInicio(celular, app);
+		verify(celular, times(0)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
+				+ " te recomendamos que lo inicies desde la app para evitar multas");
+	}
+	
 	@Test
 	void aconsejarFinalTest() {
-		notificador.aconsejarFinal(celular);
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.tieneRegistroCreado()).thenReturn(true);
+		notificador.aconsejarFinal(celular,app);
 		verify(celular, times(1)).notificar("Se detectó que finalizaste un estacionamiento,"
+				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
+	}
+	
+	@Test
+	void aconsejarFinalTest2 () {
+		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.tieneRegistroCreado()).thenReturn(false);
+		notificador.aconsejarFinal(celular,app);
+		verify(celular, times(0)).notificar("Se detectó que finalizaste un estacionamiento,"
 				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
 	}
 	@Test
