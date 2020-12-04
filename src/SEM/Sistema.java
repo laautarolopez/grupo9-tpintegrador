@@ -10,6 +10,7 @@ public class Sistema {
 	private CentroZonas centroZonas;
 	private CentroInfracciones centroInfracciones;
 	private CentroRegistros centroRegistros;
+	Clock clock = Clock.system(ZoneId.of("GMT-3"));
 	
 	public Sistema() {
 		this.valorDeHora = 40;
@@ -20,10 +21,12 @@ public class Sistema {
 	}
 	
 	// GENERAL
+	public void setClock(Clock clock) {
+		this.clock = clock;
+	}
 	public boolean esHoraDeEstacionamiento() {
-		Clock clock = Clock.system(ZoneId.of("GMT-3"));
-		return (LocalDateTime.now(clock).getHour() < 7) 
-			   || (LocalDateTime.now(clock).getHour() >= 20);
+		return !((LocalDateTime.now(clock).getHour() < 7) 
+			   || (LocalDateTime.now(clock).getHour() >= 20));
 	}
 	
 	public void setValorDeHora(int valor) {
