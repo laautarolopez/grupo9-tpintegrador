@@ -1,10 +1,7 @@
 package SEM;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito.Then;
 
 import static org.mockito.Mockito.*;
 
@@ -38,28 +35,28 @@ class NotificadorTest {
 	
 	@Test
 	void aconsejarInicioTest() {
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		when(app.tieneRegistroCreado()).thenReturn(false);
-		notificador.aconsejarInicio(celular, app);
-		verify(celular, times(1)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
+		notificador.aconsejarInicio(app);
+		verify(app, times(1)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
 				+ " te recomendamos que lo inicies desde la app para evitar multas");
 	}
 	
 	@Test
 	void aconsejarInicioTest2() {
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		when(app.tieneRegistroCreado()).thenReturn(true);
-		notificador.aconsejarInicio(celular, app);
-		verify(celular, times(0)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
+		notificador.aconsejarInicio(app);
+		verify(app, times(0)).notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
 				+ " te recomendamos que lo inicies desde la app para evitar multas");
 	}
 	
 	@Test
 	void aconsejarFinalTest() {
-		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
+		when(app.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		when(app.tieneRegistroCreado()).thenReturn(true);
-		notificador.aconsejarFinal(celular,app);
-		verify(celular, times(1)).notificar("Se detectó que finalizaste un estacionamiento,"
+		notificador.aconsejarFinal(app);
+		verify(app, times(1)).notificar("Se detectó que finalizaste un estacionamiento,"
 				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
 	}
 	
@@ -67,20 +64,20 @@ class NotificadorTest {
 	void aconsejarFinalTest2 () {
 		when(celular.estaEnZonaDeEstacionamiento()).thenReturn(true);
 		when(app.tieneRegistroCreado()).thenReturn(false);
-		notificador.aconsejarFinal(celular,app);
-		verify(celular, times(0)).notificar("Se detectó que finalizaste un estacionamiento,"
+		notificador.aconsejarFinal(app);
+		verify(app, times(0)).notificar("Se detectó que finalizaste un estacionamiento,"
 				+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
 	}
 	@Test
 	void informarInicioTest() {
-		notificador.informarInicio(celular, registro);
-		verify(celular, times(1)).notificar("Hora de inicio: " + registro.getHoraDeInicio() + 
+		notificador.informarInicio(app, registro);
+		verify(app, times(1)).notificar("Hora de inicio: " + registro.getHoraDeInicio() + 
 				 "Hora máxima de fin: " + registro.getHoraDeFin());
 	}
 	@Test
 	void informarFinalTest() {
-		notificador.informarFinal(celular, registro);
-		verify(celular, times(1)).notificar("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getMinute() + "\n" +
+		notificador.informarFinal(app, registro);
+		verify(app, times(1)).notificar("Hora de inicio: " + registro.getHoraDeInicio().getHour() + ":" + registro.getHoraDeInicio().getMinute() + "\n" +
 				"Hora de fin: " + "14" + ":" + "24" + "\n" +
 				"Duración: " + registro.calcularDuracion() + "\n" +
 				"Costo: " + registro.calcularCosto());

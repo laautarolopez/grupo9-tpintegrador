@@ -16,17 +16,17 @@ public class NotificacionesActivadas implements Notificador{
 				 "Hora máxima de fin: " + registro.getHoraDeFin());
 	}
 	@Override
-	public void aconsejarInicio(Celular celular, AplicacionCliente app) {
-		if(celular.estaEnZonaDeEstacionamiento() && !app.tieneRegistroCreado()) {
-			celular.notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
+	public void aconsejarInicio(AplicacionCliente app) {
+		if(app.estaEnZonaDeEstacionamiento() && !app.tieneRegistroCreado()) {
+			app.notificar("Se detectó que estacionaste en una zona de estacionamiento medido,"
 					+ " te recomendamos que lo inicies desde la app para evitar multas");			
 		}
 	}
 	@Override
-	public void aconsejarFinal(Celular celular, AplicacionCliente app) {
+	public void aconsejarFinal(AplicacionCliente app) {
 		
-		if(celular.estaEnZonaDeEstacionamiento() && app.tieneRegistroCreado()) {
-			celular.notificar("Se detectó que finalizaste un estacionamiento,"
+		if(app.estaEnZonaDeEstacionamiento() && app.tieneRegistroCreado()) {
+			app.notificar("Se detectó que finalizaste un estacionamiento,"
 					+ " te recomendamos que lo finalices el mismo desde la app para evitarte gastos adicionales");
 		}
 	}
