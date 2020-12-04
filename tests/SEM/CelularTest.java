@@ -4,95 +4,78 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
-class CelularTest {
-	
-	public class CelularTesteable extends Celular {
 
-		public CelularTesteable(String numero, String patente, Gps gps, MovementSensor ms) {
-			super(numero, patente, gps, ms);
-		}
-		
-		public void setApp(AplicacionCliente app) {
-			this.app = app;
-		}
-		
-		public void setCc(CentroCelulares cc) {
-			this.centroCelulares = cc;
-		}
-		
-		public void setCz(CentroZonas cz) {
-			this.centroZonas = cz;
-		}
-		
-		public void setCr(CelularReal cr) {
-			this.real = cr;
-		}
-		
-	}
+import static org.mockito.Mockito.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+public class CelularTest {
+	private Celular celular;
+	private Sistema sistema;
+	private Gps gps;
+	private ByteArrayOutputStream b;
 	
-	AplicacionCliente app = mock(AplicacionCliente.class);
-	Gps gps = mock(Gps.class);
-	MovementSensor ms = mock(MovementSensor.class);
-	CelularTesteable celular = new CelularTesteable("11231", "3312", gps, ms);
-	CentroCelulares cc = mock(CentroCelulares.class);
-	CelularReal cr = mock(CelularReal.class);
-	CentroZonas cz = mock(CentroZonas.class);
 	@BeforeEach
-	void setup() {
-		celular.setApp(app);
-		celular.setCc(cc);
-		celular.setCr(cr);
-		celular.setCz(cz);
-	}
-	@Test
-	void testGetters() {
-		assertEquals("3312", celular.getPatente());
-		assertEquals("11231", celular.getNumero());
+	public void setUp() {
+		sistema = mock(Sistema.class);
+		gps = mock(Gps.class);
+		String numero = "1125458510";
+		String patente = "ABC123";
+		celular = new Celular(sistema, numero, patente, gps);
+		b = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(b));
 	}
 	
 	@Test
-	void testSaldo() {
-		when(cc.saldoDe("11231")).thenReturn(120);
-		assertEquals(120,celular.getSaldoActual());
-	}
-	@Test
-	void testCambioDeModo() {
-		Modo modo = mock(Modo.class);
-		celular.cambiarModoApp(modo);
-		verify(app, times(1)).cambiarModo(modo);
-	}
-	@Test
-	void zonaEstacionamiento() {
-		when(gps.getZona()).thenReturn("Varela");
-		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(true);
-		assertTrue(celular.estaEnZonaDeEstacionamiento());
-	}
-	@Test
-	void zonaEstacionamiento2() {
-		when(gps.getZona()).thenReturn("Varela");
-		when(cz.esZonaDeEstacionamiento("Varela")).thenReturn(false);
-		assertFalse(celular.estaEnZonaDeEstacionamiento());
-	}
-	@Test
-	void validarSaldoTest() {
-		when(cc.saldoDe("11231")).thenReturn(30);
-		assertThrows(Exception.class, () -> celular.validarSaldo(40));
-	}
-	@Test
-	void validarSaldoTest2() {
-		when(cc.saldoDe("11231")).thenReturn(60);
-		assertDoesNotThrow(() -> celular.validarSaldo(40));
-	}
-	@Test
-	void getZonaTest() {
-		when(gps.getZona()).thenReturn("Varela");
-		assertEquals("Varela", celular.getZona());
+	public void constructorTest() {
+		assertEquals(sistema, celular.sistema);
+		assertEquals("1125458510", celular.getNumero());
+		assertEquals("ABC123", celular.getPatente());
 	}
 	
 	@Test
-	void notificacion() {
-		celular.notificar("A");
-		verify(cr, times(1)).recibirNotificacion("A");
+	public void setPatenteTest() {
+		assertEquals("ABC123", celular.getPatente());
+		
+		String patente = "ABC456";
+		celular.setPatente(patente);
+		assertEquals(patente, celular.getPatente());
+	}
+	
+	@Test
+	public void estaEnZonaDeEstacionamientoTest() {
+		when(gps.getZona()).thenReturn("Quilmes");
+		
+		verifyNoInteractions(sistema);
+		verifyNoInteractions(gps);
+		
+		celular.estaEnZonaDeEstacionamiento();
+		verify(sistema).esZonaDeEstacionamiento("Quilmes");
+		verify(gps).getZona();
+	}
+	
+	@Test
+	public void getSaldoActualTest() {
+		verifyNoInteractions(sistema);
+		
+		celular.getSaldoActual();
+		verify(sistema).getSaldo(celular.getNumero());
+	}
+	
+	@Test
+	public void getZonaTest() {
+		verifyNoInteractions(gps);
+		
+		celular.getZona();
+		verify(gps).getZona();
+	}
+	
+	@Test
+	public void notificarTest() {
+		celular.notificar("Mensaje a notificar.");
+		String s = b.toString().substring(0, b.toString().length()-2);
+		
+		assertEquals("Mensaje a notificar.", s);
 	}
 }

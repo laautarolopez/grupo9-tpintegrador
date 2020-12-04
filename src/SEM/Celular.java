@@ -1,6 +1,6 @@
 package SEM;
 
-public abstract class Celular {
+public class Celular {
 	Sistema sistema;
 	private String numero;
 	private String patenteLinkeada;
