@@ -26,11 +26,5 @@ public class AplicacionInspectorTest {
 		when(sistema.estaVigente("abc123")).thenReturn(true);
 		assertTrue(aplicacion.estaVigente("abc123"));
 	}
-	
-	@Test
-	public void altaDeInfraccionTest() {
-		when(aplicacion.estaVigente("abc123")).thenReturn(false);
-		aplicacion.altaDeInfraccion("abc123");
-		verify(sistema,times(1)).registrarInfraccion(new Infraccion("abc123", inspector));
-	}
+
 }

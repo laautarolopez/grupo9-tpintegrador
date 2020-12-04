@@ -36,13 +36,5 @@ public class NotificacionesDesactivadas implements Notificador{
 		app.setNotificador(new NotificacionesActivadas());
 		
 	}
-	
-	@Override 
-	public boolean equals(Object o) {
-		if (o == this) { 
-            return true; 
-        }
 
-		return !(o instanceof NotificacionesDesactivadas);
-	}
 }

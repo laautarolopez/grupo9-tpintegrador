@@ -33,7 +33,7 @@ public class Infraccion {
 	public String getZona() {
 		return this.zona;
 	}
-	
+/*	
 	@Override 
 	public boolean equals(Object o) {
 		if (o == this) { 
@@ -50,4 +50,5 @@ public class Infraccion {
 		return this.getPatente().equals(i.getPatente()) && this.getInspector().equals(i.getInspector());
 				
 	}
+*/
 }
