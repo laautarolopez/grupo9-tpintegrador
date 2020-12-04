@@ -25,8 +25,8 @@ public class Sistema {
 		this.clock = clock;
 	}
 	public boolean esHoraDeEstacionamiento() {
-		return !((LocalDateTime.now(clock).getHour() < 7) 
-			   || (LocalDateTime.now(clock).getHour() >= 20));
+		return (LocalDateTime.now(clock).getHour() >= 7) 
+			   && (LocalDateTime.now(clock).getHour() < 20);
 	}
 	
 	public void setValorDeHora(int valor) {
