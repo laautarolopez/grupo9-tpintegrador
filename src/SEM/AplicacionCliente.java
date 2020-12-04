@@ -85,11 +85,11 @@ public class AplicacionCliente extends Celular implements MovementSensor {
 	}
 	
 	public void aconsejarFinal() {
-		notificador.aconsejarFinal(this, this);
+		notificador.aconsejarFinal(this);
 	}
 
 	public void aconsejarInicio() {
-		notificador.aconsejarInicio(this, this);
+		notificador.aconsejarInicio(this);
 	}
 	
 	public void setNotificador(Notificador n) {

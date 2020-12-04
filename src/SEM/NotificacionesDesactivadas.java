@@ -18,14 +18,14 @@ public class NotificacionesDesactivadas implements Notificador{
 
 
 	@Override
-	public void aconsejarInicio(Celular celular, AplicacionCliente app) {
+	public void aconsejarInicio(AplicacionCliente app) {
 		
 	}
 
 
 
 	@Override
-	public void aconsejarFinal(Celular celular, AplicacionCliente app) {
+	public void aconsejarFinal(AplicacionCliente app) {
 		
 	}
 

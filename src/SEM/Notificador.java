@@ -6,9 +6,9 @@ public interface Notificador {
 
 	void informarFinal(Celular celular, RegistroDeEstacionamiento registro);
 
-	void aconsejarInicio(Celular celular, AplicacionCliente app);
+	void aconsejarInicio(AplicacionCliente app);
 
-	void aconsejarFinal(Celular celular, AplicacionCliente app);
+	void aconsejarFinal(AplicacionCliente app);
 	
 	void cambiarModo(AplicacionCliente app);
 }
